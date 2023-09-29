@@ -70,12 +70,10 @@ class ProfileHeaderView: UIView{
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-
         setConstraints()
     }
 
     func setConstraints() {
-        let safeArea = self.safeAreaLayoutGuide
         addSubview(button)
         addSubview(avatar)
         addSubview(nameLabel)
@@ -86,39 +84,42 @@ class ProfileHeaderView: UIView{
         button.addTarget(self, action: #selector(showButtonPressed), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
-            nameLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-            nameLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 27),
+            nameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            nameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 27),
 
             
-            avatar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
-            avatar.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 16),
+            avatar.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            avatar.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
             avatar.widthAnchor.constraint(equalToConstant: 100),
             avatar.heightAnchor.constraint(equalToConstant: 100),
 
         
             
             button.topAnchor.constraint(equalTo: avatar.bottomAnchor, constant: 16+40),
-            button.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
-            button.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
-            button.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            button.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            button.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            button.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             button.heightAnchor.constraint(equalToConstant: 50),
         
             
             statusLabel.bottomAnchor.constraint(equalTo: button.topAnchor, constant: -34-40),
-            statusLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor,constant: 0),
+            statusLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor,constant: 0),
         
             
             changeField.bottomAnchor.constraint(equalTo: button.topAnchor,constant: -10),
-            changeField.leadingAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            changeField.leadingAnchor.constraint(equalTo: self.centerXAnchor),
             changeField.heightAnchor.constraint(equalToConstant: 40),
-            changeField.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16)
+            changeField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
         ])
+
+        
     }
 
 
     @objc func showButtonPressed() {
         if button.titleLabel!.text == "Show status"{
             print (statusLabel.text ?? "")
+            print(self.bounds, self.frame)
         } else {
             statusLabel.text = changeField.text
             changeField.text = ""
