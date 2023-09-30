@@ -70,15 +70,21 @@ class ProfileHeaderView: UIView{
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        addSubviews()
         setConstraints()
     }
-
-    func setConstraints() {
+    
+    
+    func addSubviews() {
         addSubview(button)
         addSubview(avatar)
         addSubview(nameLabel)
         addSubview(statusLabel)
         addSubview(changeField)
+    }
+
+    func setConstraints() {
+        
         
         changeField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
         button.addTarget(self, action: #selector(showButtonPressed), for: .touchUpInside)
@@ -106,7 +112,7 @@ class ProfileHeaderView: UIView{
             statusLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor,constant: 0),
         
             
-            changeField.bottomAnchor.constraint(equalTo: button.topAnchor,constant: -10),
+            changeField.bottomAnchor.constraint(equalTo: button.topAnchor,constant: -16),
             changeField.leadingAnchor.constraint(equalTo: statusLabel.leadingAnchor),
             changeField.heightAnchor.constraint(equalToConstant: 40),
             changeField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
