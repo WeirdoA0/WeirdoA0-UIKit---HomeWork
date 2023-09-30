@@ -14,7 +14,7 @@ class ProfileHeaderView: UIView{
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitle("Show status", for: .normal)
         btn.setTitleColor(.white, for: .normal)
-        btn.backgroundColor = .red
+        btn.backgroundColor = .blue
         btn.layer.cornerRadius = 4
         btn.layer.shadowOffset = CGSize(width: 4, height: 4)
         btn.layer.shadowOpacity = 0.7
@@ -63,7 +63,7 @@ class ProfileHeaderView: UIView{
         image.translatesAutoresizingMaskIntoConstraints = false
         image.layer.cornerRadius = 50
         image.layer.borderWidth = 3
-        image.layer.borderColor = UIColor.red.cgColor
+        image.layer.borderColor = UIColor.white.cgColor
         image.clipsToBounds = true
         return image
     }()
@@ -107,7 +107,7 @@ class ProfileHeaderView: UIView{
         
             
             changeField.bottomAnchor.constraint(equalTo: button.topAnchor,constant: -10),
-            changeField.leadingAnchor.constraint(equalTo: self.centerXAnchor),
+            changeField.leadingAnchor.constraint(equalTo: statusLabel.leadingAnchor),
             changeField.heightAnchor.constraint(equalToConstant: 40),
             changeField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
         ])
