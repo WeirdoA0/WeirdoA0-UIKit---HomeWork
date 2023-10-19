@@ -11,6 +11,7 @@ class PostViewController: UIViewController {
         super.viewDidLoad()
         title = post.title
         view.backgroundColor = .systemGray4
+
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(openInfoViewController))
     }

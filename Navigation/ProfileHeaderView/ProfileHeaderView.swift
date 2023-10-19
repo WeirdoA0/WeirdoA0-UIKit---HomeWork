@@ -46,25 +46,35 @@ class ProfileHeaderView: UIView{
     
     private let changeField: UITextField = {
         let field = UITextField()
+        
         field.translatesAutoresizingMaskIntoConstraints = false
-        field.layer.cornerRadius = 12
+        
+
         field.backgroundColor = .white
         field.textColor = .black
         field.font = field.font?.withSize(15)
+        field.placeholder = "Set status here"
+        
+        field.layer.cornerRadius = 12
         field.layer.masksToBounds = true
         field.layer.borderWidth = 1
         field.layer.borderColor = UIColor.black.cgColor
+        
         return field
         
     }()
     
     private let avatar: UIImageView = {
         let image = UIImageView(image: UIImage(named: "doge"))
+        
         image.translatesAutoresizingMaskIntoConstraints = false
+        
         image.layer.cornerRadius = 50
         image.layer.borderWidth = 3
         image.layer.borderColor = UIColor.white.cgColor
+        
         image.clipsToBounds = true
+        
         return image
     }()
     
@@ -73,8 +83,6 @@ class ProfileHeaderView: UIView{
         addSubviews()
         setConstraints()
     }
-    
-    
     func addSubviews() {
         addSubview(button)
         addSubview(avatar)
@@ -83,7 +91,7 @@ class ProfileHeaderView: UIView{
         addSubview(changeField)
     }
 
-    func setConstraints() {
+    private func setConstraints() {
         
         
         changeField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)

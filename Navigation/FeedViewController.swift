@@ -55,6 +55,7 @@ class FeedViewController: UIViewController{
     }
     @objc func openPostViewController() {
         let postViewController = PostViewController()
+        postViewController.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(postViewController, animated: true)
     }
     
