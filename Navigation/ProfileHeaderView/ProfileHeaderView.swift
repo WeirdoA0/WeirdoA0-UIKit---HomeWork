@@ -7,18 +7,21 @@
 //
 
 import UIKit
-class ProfileHeaderView: UIView{
+class ProfileHeaderView: UITableViewHeaderFooterView{
     
     private let button: UIButton = {
         let btn = UIButton()
+        
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitle("Show status", for: .normal)
         btn.setTitleColor(.white, for: .normal)
         btn.backgroundColor = .blue
+        
         btn.layer.cornerRadius = 4
         btn.layer.shadowOffset = CGSize(width: 4, height: 4)
         btn.layer.shadowOpacity = 0.7
         btn.layer.shadowColor = UIColor.black.cgColor
+        
         btn.layer.masksToBounds = true
         btn.clipsToBounds = false
         return btn
@@ -27,7 +30,7 @@ class ProfileHeaderView: UIView{
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Doge"
+        label.text = ""
         label.textColor = .black
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 18)
@@ -37,7 +40,7 @@ class ProfileHeaderView: UIView{
     private let statusLabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Watching at you"
+        label.text = ""
         label.textColor = .darkGray
         label.textAlignment = .center
         label.font = UIFont(name: label.font.fontName, size: 14)
@@ -65,7 +68,7 @@ class ProfileHeaderView: UIView{
     }()
     
     private let avatar: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "doge"))
+        let image = UIImageView()
         
         image.translatesAutoresizingMaskIntoConstraints = false
         
@@ -78,17 +81,23 @@ class ProfileHeaderView: UIView{
         return image
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(reuseIdentifier: String?) {
+        
+        super.init(reuseIdentifier: reuseIdentifier)
+        
+        tuneView()
         addSubviews()
         setConstraints()
     }
-    func addSubviews() {
-        addSubview(button)
-        addSubview(avatar)
-        addSubview(nameLabel)
-        addSubview(statusLabel)
-        addSubview(changeField)
+    private func tuneView() {
+        backgroundColor = .systemGray6
+    }
+    private func addSubviews() {
+        contentView.addSubview(button)
+        contentView.addSubview(avatar)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(statusLabel)
+        contentView.addSubview(changeField)
     }
 
     private func setConstraints() {
@@ -98,32 +107,32 @@ class ProfileHeaderView: UIView{
         button.addTarget(self, action: #selector(showButtonPressed), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
-            nameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            nameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 27),
+            nameLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 27),
 
             
-            avatar.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-            avatar.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
+            avatar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            avatar.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             avatar.widthAnchor.constraint(equalToConstant: 100),
             avatar.heightAnchor.constraint(equalToConstant: 100),
 
         
             
             button.topAnchor.constraint(equalTo: avatar.bottomAnchor, constant: 16+40),
-            button.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-            button.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            button.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            button.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            button.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             button.heightAnchor.constraint(equalToConstant: 50),
         
             
             statusLabel.bottomAnchor.constraint(equalTo: button.topAnchor, constant: -34-40),
-            statusLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor,constant: 0),
+            statusLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor,constant: 0),
         
             
             changeField.bottomAnchor.constraint(equalTo: button.topAnchor,constant: -16),
             changeField.leadingAnchor.constraint(equalTo: statusLabel.leadingAnchor),
             changeField.heightAnchor.constraint(equalToConstant: 40),
-            changeField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            changeField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
         ])
 
         
@@ -144,6 +153,11 @@ class ProfileHeaderView: UIView{
     @objc func statusTextChanged(){
         button.setTitle("Set status", for: .normal)
         
+    }
+    
+    func update(_ name: String, _ image: String) {
+        nameLabel.text = name
+        avatar.image = UIImage(named: image)
     }
     
     

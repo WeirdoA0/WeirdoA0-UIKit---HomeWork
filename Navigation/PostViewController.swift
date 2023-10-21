@@ -9,7 +9,7 @@ import UIKit
 class PostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = post.title
+
         view.backgroundColor = .systemGray4
 
         
@@ -22,4 +22,4 @@ class PostViewController: UIViewController {
         present(infoViewController, animated: true)
     }
 }
-let post = Post(title: "Some Post")
+
