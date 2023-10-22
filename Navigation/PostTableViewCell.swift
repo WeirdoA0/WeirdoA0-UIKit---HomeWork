@@ -19,6 +19,7 @@ class PostTableViewCell: UITableViewCell {
         label.textColor = .black
         label.numberOfLines = 2
         
+        
     return label
     }()
     
@@ -108,11 +109,12 @@ class PostTableViewCell: UITableViewCell {
             text.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             text.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
 
+
             
             likesBar.topAnchor.constraint(equalTo: text.bottomAnchor, constant: 16),
             likesBar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             likesBar.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            likesBar.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant:  16),
+            likesBar.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant:  -16),
             
             viewsBar.leadingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor),
             viewsBar.topAnchor.constraint(equalTo: likesBar.topAnchor),

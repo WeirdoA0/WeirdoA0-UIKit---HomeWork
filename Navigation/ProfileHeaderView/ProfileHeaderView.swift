@@ -90,7 +90,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
         setConstraints()
     }
     private func tuneView() {
-        backgroundColor = .systemGray6
+        backgroundColor = .lightGray
     }
     private func addSubviews() {
         contentView.addSubview(button)

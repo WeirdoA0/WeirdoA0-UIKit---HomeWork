@@ -16,7 +16,7 @@ class ProfileViewController: UIViewController {
         table.showsVerticalScrollIndicator = true
         
         table.contentInset.bottom = navigationController?.navigationBar.frame.height ?? 0
-
+        
         
         return table
     }()
@@ -60,6 +60,8 @@ class ProfileViewController: UIViewController {
 
 extension ProfileViewController: UITableViewDelegate {
     
+    //MARK: DataSoirce
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         240
     }
@@ -76,6 +78,8 @@ extension ProfileViewController: UITableViewDelegate {
     }
     
 }
+
+    //MARK: Delegate
 
 extension ProfileViewController: UITableViewDataSource {
     
