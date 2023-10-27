@@ -31,3 +31,7 @@ func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage? {
     
     return newImage
 }
+
+
+
+let arrowImage = resizeImage(image: UIImage(named: "arrow")!, targetSize: CGSize(width: 29, height: 29))

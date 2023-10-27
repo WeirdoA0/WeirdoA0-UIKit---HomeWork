@@ -9,6 +9,7 @@
 import UIKit
 class ProfileHeaderView: UITableViewHeaderFooterView{
     
+    
     private let button: UIButton = {
         let btn = UIButton()
         
@@ -40,7 +41,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
     private let statusLabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = ""
+        label.text = "Watching at you"
         label.textColor = .darkGray
         label.textAlignment = .center
         label.font = UIFont(name: label.font.fontName, size: 14)
@@ -53,7 +54,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
         field.translatesAutoresizingMaskIntoConstraints = false
         
 
-        field.backgroundColor = .white
+        field.backgroundColor = .systemBackground
         field.textColor = .black
         field.font = field.font?.withSize(15)
         field.placeholder = "Set status here"
@@ -90,7 +91,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
         setConstraints()
     }
     private func tuneView() {
-        backgroundColor = .lightGray
+        contentView.backgroundColor = .systemGray6
     }
     private func addSubviews() {
         contentView.addSubview(button)

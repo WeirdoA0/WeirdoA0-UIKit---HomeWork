@@ -9,6 +9,7 @@ import UIKit
 class LogInViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: SubViews
+    
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView()
         scroll.showsHorizontalScrollIndicator = false
