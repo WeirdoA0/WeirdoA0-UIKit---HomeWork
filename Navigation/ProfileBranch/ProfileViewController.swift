@@ -92,6 +92,8 @@ extension ProfileViewController: UITableViewDelegate {
 
         header.update("Doge", "doge")
 
+        header.parent = self
+            
         return header
     }
         return nil
