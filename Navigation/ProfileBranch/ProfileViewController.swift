@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import StorageService
+
 class ProfileViewController: UIViewController {
     private lazy var tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .plain)
@@ -37,7 +39,11 @@ class ProfileViewController: UIViewController {
     }
     
     private func tuneView() {
+        #if DEBUG
+        view.backgroundColor = .red
+        #else
         view.backgroundColor = .white
+        #endif
     }
     private func addSubviews() {
         view.addSubview(tableView)
