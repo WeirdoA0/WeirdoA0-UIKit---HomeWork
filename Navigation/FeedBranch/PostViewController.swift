@@ -9,8 +9,9 @@ import UIKit
 class PostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = post.title
+
         view.backgroundColor = .systemGray4
+
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(openInfoViewController))
     }
@@ -21,4 +22,4 @@ class PostViewController: UIViewController {
         present(infoViewController, animated: true)
     }
 }
-let post = Post(title: "Some Post")
+
