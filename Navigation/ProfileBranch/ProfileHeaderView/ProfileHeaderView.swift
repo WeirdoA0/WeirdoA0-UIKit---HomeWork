@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import SnapKit
-
 class ProfileHeaderView: UITableViewHeaderFooterView{
     
      var parent:  UIViewController?
@@ -32,9 +30,6 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
         
         btn.layer.masksToBounds = true
         btn.clipsToBounds = false
-        
-        btn.addTarget(self, action: #selector(showButtonPressed), for: .touchUpInside)
-        
         return btn
     }()
     
@@ -51,7 +46,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
     private let statusLabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Watching at you"
+        label.text = ""
         label.textColor = .darkGray
         label.textAlignment = .center
         label.font = UIFont(name: label.font.fontName, size: 14)
@@ -73,8 +68,6 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
         field.layer.masksToBounds = true
         field.layer.borderWidth = 1
         field.layer.borderColor = UIColor.black.cgColor
-        
-        field.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
         
         return field
         
@@ -111,7 +104,6 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
         addGestures()
         
         
-        
     }
     
     // MARK: Private
@@ -130,31 +122,40 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
 
     private func setConstraints() {
         
-        nameLabel.snp.makeConstraints({make in
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview().inset(27)
-        })
-        avatar.snp.makeConstraints({make in
-            make.leading.equalToSuperview().inset(16)
-            make.top.equalToSuperview().inset(16)
-            make.width.height.equalTo(100)
-        })
-        button.snp.makeConstraints({make in
-            make.top.equalTo(avatar.snp.bottom).inset(-56)
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.height.equalTo(50)
-        })
-        statusLabel.snp.makeConstraints({make in
-            make.bottom.equalTo(button.snp.top).inset(-74)
-            make.centerX.equalToSuperview()
-        })
-        changeField.snp.makeConstraints({make in
-            make.bottom.equalTo(button.snp.top).inset(-16)
-            make.leading.equalTo(statusLabel.snp.leading)
-            make.height.equalTo(40)
-            make.trailing.equalToSuperview().inset(16)
-        })
+        
+        changeField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
+        button.addTarget(self, action: #selector(showButtonPressed), for: .touchUpInside)
+        
+        NSLayoutConstraint.activate([
+            nameLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 27),
 
+            
+            avatar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            avatar.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            avatar.widthAnchor.constraint(equalToConstant: 100),
+            avatar.heightAnchor.constraint(equalToConstant: 100),
+
+        
+            
+            button.topAnchor.constraint(equalTo: avatar.bottomAnchor, constant: 16+40),
+            button.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            button.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            button.heightAnchor.constraint(equalToConstant: 50),
+        
+            
+            statusLabel.bottomAnchor.constraint(equalTo: button.topAnchor, constant: -34-40),
+            statusLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor,constant: 0),
+        
+            
+            changeField.bottomAnchor.constraint(equalTo: button.topAnchor,constant: -16),
+            changeField.leadingAnchor.constraint(equalTo: statusLabel.leadingAnchor),
+            changeField.heightAnchor.constraint(equalToConstant: 40),
+            changeField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            
+     
+        ])
 
         contentView.bringSubviewToFront(avatar)
     }
@@ -235,6 +236,9 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
         
         (parent!.view.subviews.first! as! UITableView).isScrollEnabled = false
         
+        (parent!.view.subviews.first! as! UITableView).cellForRow(at: IndexPath(item: 0, section: 0))?.isUserInteractionEnabled = false
+        
+        
         addBlackView()
         let blackView = contentView.subviews.last!
         addXMarkBtn()
@@ -276,6 +280,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
         print("Tap 2 is done")
         
         (parent!.view.subviews.first! as! UITableView).isScrollEnabled = true
+        (parent!.view.subviews.first! as! UITableView).cellForRow(at: IndexPath(item: 0, section: 0))?.isUserInteractionEnabled = true
         
         let xScale = parent!.view.frame.width / avatar.frame.width
         let numverOfSubviews = contentView.subviews.count
@@ -316,8 +321,10 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
     //MARK: Internal
     
     func update(_ name: String, _ image: String) {
-        nameLabel.text = name
-        avatar.image = UIImage(named: image)
+        let prnt = parent as! ProfileViewController
+        nameLabel.text = prnt.user?.name
+        avatar.image = prnt.user?.avatar
+        statusLabel.text = prnt.user?.status
     }
 
     

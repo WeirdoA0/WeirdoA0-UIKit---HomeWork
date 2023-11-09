@@ -9,6 +9,9 @@ import UIKit
 import StorageService
 
 class ProfileViewController: UIViewController {
+    
+    var user: User?
+    
     private lazy var tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .plain)
         
@@ -96,9 +99,10 @@ extension ProfileViewController: UITableViewDelegate {
             fatalError()
         }
 
+        header.parent = self
+            
         header.update("Doge", "doge")
 
-        header.parent = self
             
         return header
     }
@@ -141,8 +145,6 @@ extension ProfileViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "Post", for: indexPath) as? PostTableViewCell else {
                 fatalError("Fatal Error")
             }
-            
-            cell.count = indexPath.row
             
             cell.update(model: Post.make()[indexPath.row - 1])
             

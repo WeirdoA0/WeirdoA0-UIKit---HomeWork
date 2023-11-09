@@ -6,9 +6,13 @@
 //
 
 import UIKit
+import StorageService
 class LogInViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: SubViews
+    
+    private var users: [CurrentUserService]? = [dogeUser]
+    private var developers: [CurrentUserService]? = [developerUser]
     
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView()
@@ -42,7 +46,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     }()
     
     private lazy var loginPasswordField: UIStackView =  {
-       let stackView = UIStackView()
+        let stackView = UIStackView()
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -56,7 +60,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         stackView.layer.masksToBounds = true
         
         stackView.addArrangedSubview(loginField)
- 
+        
         let grayView: UIView = UIView()
         grayView.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
         grayView.backgroundColor = UIColor.lightGray
@@ -83,7 +87,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         text.returnKeyType = UIReturnKeyType.done
         text.contentVerticalAlignment = .center
         
-       
+        
         text.placeholder = "Email or phone"
         
         text.delegate = self
@@ -190,7 +194,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
             loginPasswordField.heightAnchor.constraint(equalToConstant: 100.5),
             loginPasswordField.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant:  -32),
             loginPasswordField.topAnchor.constraint(equalTo: VKLogo.bottomAnchor, constant: 120),
-
+            
             loginButton.topAnchor.constraint(equalTo: loginPasswordField.bottomAnchor, constant: 16),
             loginButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             loginButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
@@ -214,6 +218,8 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
             name: UIResponder.keyboardWillHideNotification,
             object: nil)
     }
+    
+    
     @objc func keyBoardWillShow(_ notfication: Notification) {
         let height = (notfication.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect)?.height
         scrollView.contentInset.bottom += height ?? 0
@@ -221,22 +227,46 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     @objc func keyBoardWillHide(_ notfication: Notification) {
         scrollView.contentInset.bottom =   0
     }
-    @objc func logInPressed() {
-        let profile = ProfileViewController()
-        navigationController?.pushViewController(profile, animated: true)
-    }
-    
     
     private func removeObservers() {
         let notiCenter = NotificationCenter.default
         notiCenter.removeObserver(self)
     }
+    
+    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
-       internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-            
-            textField.resignFirstResponder()
-            
-            return true
-        }
+        textField.resignFirstResponder()
+        
+        return true
     }
-
+    
+    
+    //MARK: Login
+    
+    @objc func logInPressed() {
+        #if DEBUG
+        for user in developers ?? [] {
+            if user.authorizeUser(loginField.text ?? "") != nil {
+                
+                let profile = ProfileViewController()
+                profile.user = user.authorizeUser(loginField.text ?? "")!
+                navigationController?.pushViewController(profile, animated: true)
+            } else {
+                print("incorrect login, try dev1")
+            }
+        }
+        #else
+        for user in users ?? [] {
+            if user.authorizeUser(loginField.text ?? "") != nil {
+                
+                let profile = ProfileViewController()
+                profile.user = user.authorizeUser(loginField.text ?? "")!
+                navigationController?.pushViewController(profile, animated: true)
+            } else {
+                print("incorrect login, try 1234")
+            }
+        }
+        #endif
+    }
+    
+}
