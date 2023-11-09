@@ -142,6 +142,8 @@ extension ProfileViewController: UITableViewDataSource {
                 fatalError("Fatal Error")
             }
             
+            cell.count = indexPath.row
+            
             cell.update(model: Post.make()[indexPath.row - 1])
             
             return cell

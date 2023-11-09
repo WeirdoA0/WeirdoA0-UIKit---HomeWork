@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SnapKit
+
 class ProfileHeaderView: UITableViewHeaderFooterView{
     
      var parent:  UIViewController?
@@ -30,6 +32,9 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
         
         btn.layer.masksToBounds = true
         btn.clipsToBounds = false
+        
+        btn.addTarget(self, action: #selector(showButtonPressed), for: .touchUpInside)
+        
         return btn
     }()
     
@@ -69,6 +74,8 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
         field.layer.borderWidth = 1
         field.layer.borderColor = UIColor.black.cgColor
         
+        field.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
+        
         return field
         
     }()
@@ -104,6 +111,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
         addGestures()
         
         
+        
     }
     
     // MARK: Private
@@ -122,40 +130,31 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
 
     private func setConstraints() {
         
-        
-        changeField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
-        button.addTarget(self, action: #selector(showButtonPressed), for: .touchUpInside)
-        
-        NSLayoutConstraint.activate([
-            nameLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 27),
+        nameLabel.snp.makeConstraints({make in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().inset(27)
+        })
+        avatar.snp.makeConstraints({make in
+            make.leading.equalToSuperview().inset(16)
+            make.top.equalToSuperview().inset(16)
+            make.width.height.equalTo(100)
+        })
+        button.snp.makeConstraints({make in
+            make.top.equalTo(avatar.snp.bottom).inset(-56)
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.height.equalTo(50)
+        })
+        statusLabel.snp.makeConstraints({make in
+            make.bottom.equalTo(button.snp.top).inset(-74)
+            make.centerX.equalToSuperview()
+        })
+        changeField.snp.makeConstraints({make in
+            make.bottom.equalTo(button.snp.top).inset(-16)
+            make.leading.equalTo(statusLabel.snp.leading)
+            make.height.equalTo(40)
+            make.trailing.equalToSuperview().inset(16)
+        })
 
-            
-            avatar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            avatar.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            avatar.widthAnchor.constraint(equalToConstant: 100),
-            avatar.heightAnchor.constraint(equalToConstant: 100),
-
-        
-            
-            button.topAnchor.constraint(equalTo: avatar.bottomAnchor, constant: 16+40),
-            button.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            button.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            button.heightAnchor.constraint(equalToConstant: 50),
-        
-            
-            statusLabel.bottomAnchor.constraint(equalTo: button.topAnchor, constant: -34-40),
-            statusLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor,constant: 0),
-        
-            
-            changeField.bottomAnchor.constraint(equalTo: button.topAnchor,constant: -16),
-            changeField.leadingAnchor.constraint(equalTo: statusLabel.leadingAnchor),
-            changeField.heightAnchor.constraint(equalToConstant: 40),
-            changeField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            
-     
-        ])
 
         contentView.bringSubviewToFront(avatar)
     }

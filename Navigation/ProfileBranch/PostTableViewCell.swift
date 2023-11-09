@@ -7,8 +7,11 @@
 
 import UIKit
 import StorageService
+import iOSIntPackage
 
 class PostTableViewCell: UITableViewCell {
+    
+    var count: Int?
     
     //MARK: Subviews
     private lazy var headerLabel: UILabel = {
@@ -128,8 +131,23 @@ class PostTableViewCell: UITableViewCell {
     // MARK: Update
 
     internal func update(model: Post) {
+        switch count {
+        case 1:
+            ImageProcessor().processImage(sourceImage: UIImage(named: model.image)!, filter: .noir, completion: {finishImage in
+                postPicture.image = finishImage
+            })
+        case 2:
+            ImageProcessor().processImage(sourceImage: UIImage(named: model.image)!, filter: .fade, completion: {finishImage in
+                postPicture.image = finishImage
+            })
+        case 3:
+            ImageProcessor().processImage(sourceImage: UIImage(named: model.image)!, filter: .chrome, completion: {finishImage in
+                postPicture.image = finishImage
+            })
+        default:
+            postPicture.image = UIImage(named: model.image)
+        }
         headerLabel.text = model.author
-        postPicture.image = UIImage(named: model.image)
         text.text = model.description
         likesBar.text = "Likes: " + String(model.like)
         viewsBar.text = "Views: " + String(model.views)
