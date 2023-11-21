@@ -101,7 +101,7 @@ extension ProfileViewController: UITableViewDelegate {
 
         header.parent = self
             
-        header.update("Doge", "doge")
+        header.update("", "")
 
             
         return header

@@ -9,10 +9,9 @@ import UIKit
 import StorageService
 class LogInViewController: UIViewController, UITextFieldDelegate {
     
-    //MARK: SubViews
+    var loginDelegate: LoginViewControllerDelegate?
     
-    private var users: [CurrentUserService]? = [dogeUser]
-    private var developers: [CurrentUserService]? = [developerUser]
+    //MARK: SubViews
     
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView()
@@ -142,6 +141,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         addSubviews()
         setConstaints()
         
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -245,28 +245,21 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     
     @objc func logInPressed() {
         #if DEBUG
-        for user in developers ?? [] {
-            if user.authorizeUser(loginField.text ?? "") != nil {
-                
-                let profile = ProfileViewController()
-                profile.user = user.authorizeUser(loginField.text ?? "")!
-                navigationController?.pushViewController(profile, animated: true)
-            } else {
-                print("incorrect login, try dev1")
-            }
-        }
+        let user = TestUserService()
         #else
-        for user in users ?? [] {
-            if user.authorizeUser(loginField.text ?? "") != nil {
-                
-                let profile = ProfileViewController()
-                profile.user = user.authorizeUser(loginField.text ?? "")!
-                navigationController?.pushViewController(profile, animated: true)
-            } else {
-                print("incorrect login, try 1234")
-            }
-        }
+        let user = CurrentUserService()
         #endif
+        if (loginDelegate?.check(login: loginField.text ?? "", password: passwordField.text ?? "")) ?? false {
+            let user = user.authorizeUser(loginField.text ?? "")
+            let VController = ProfileViewController()
+            VController.user = user
+            self.navigationController?.pushViewController(VController, animated: true)
+        } else {
+            let alert = UIAlertController(title: "Incorrect login or password", message: "Enter correct login and password", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            self.present(alert, animated: true)
+        }
     }
     
 }
+

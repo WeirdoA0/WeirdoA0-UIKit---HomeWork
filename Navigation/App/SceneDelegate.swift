@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import StorageService
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -25,7 +26,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         logInViewController.tabBarItem = UITabBarItem(title: "Profile", image: resizeImage(image: UIImage(named: "profile")!, targetSize: CGSize(width: 30, height: 30)), tag: 1)
         feedViewController.tabBarItem = UITabBarItem(title: "Feed", image: resizeImage(image: UIImage(named: "feed")!, targetSize: CGSize(width: 30, height: 30)), tag: 0)
-
+        
+        logInViewController.loginDelegate = MyLoginFactory().makeLoginInspector()
+        
+        
         tabBarController.selectedIndex = 1
         
         tabBarController.tabBar.backgroundColor = .white

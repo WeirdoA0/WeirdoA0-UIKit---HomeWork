@@ -7,10 +7,16 @@
 
 import UIKit
 public protocol UserService {
+    var user: User {get set}
+    
     func authorizeUser(_ login: String) -> User?
 
 }
-
+extension UserService {
+    public func authorizeUser(_ login: String) -> User? {
+        login == user.login ? user : nil
+        }
+    }
 
 
 public class User {
@@ -28,47 +34,28 @@ public class User {
 }
 
 public class CurrentUserService: UserService {
-    public func authorizeUser(_ login: String) -> User? {
-        if login == user.login {
-            return user
-        } else {
-            return nil
-        }
+    
+    public var user = dogeUser
+    
+    public init(){}
     }
     
-    let user: User
-    init(user: User) {
-        self.user = user
-    }
-    
-}
 
-public let dogeUser = CurrentUserService(user: User(
-    login: "1234",
+public let dogeUser = User(
+    login: "login",
     name: "Doge",
     status: "Watching at you",
     avatar: UIImage(named: "doge")!)
-)
 
-public class TesttUserService: UserService {
-    public func authorizeUser(_ login: String) -> User? {
-        if login == user.login {
-            return user
-        } else {
-            return nil
-        }
-    }
+public class TestUserService: UserService {
     
-    let user: User
-    init(user: User) {
-        self.user = user
-    }
+    public var user = developerUser
     
+    public init(){}
 }
 
-public let developerUser = CurrentUserService(user: User(
-    login: "dev1",
+public let developerUser = User(
+    login: "login",
     name: "support",
     status: "",
     avatar: UIImage(named: "profile")!)
-)
