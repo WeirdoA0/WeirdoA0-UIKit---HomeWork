@@ -1,12 +1,13 @@
 //
-//  ResizeFunc.swift
+//  ResizeImage.swift
 //  Navigation
 //
-//  Created by Руслан Усманов on 30.09.2023.
+//  Created by Руслан Усманов on 22.11.2023.
 //
+
 import UIKit
 
-func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage? {
+ func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage? {
     let size = image.size
     
     let widthRatio  = targetSize.width  / size.width
@@ -34,4 +35,4 @@ func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage? {
 
 
 
-let arrowImage = resizeImage(image: UIImage(named: "arrow")!, targetSize: CGSize(width: 29, height: 29))
+  let arrowImage = resizeImage(image: UIImage(named: "arrow")!, targetSize: CGSize(width: 29, height: 29))

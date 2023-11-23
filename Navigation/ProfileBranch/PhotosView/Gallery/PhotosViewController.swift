@@ -6,8 +6,13 @@
 //
 
 import UIKit
+import iOSIntPackage
+import StorageService
 
 class PhotosViewController: UIViewController {
+    
+    private var facade = ImagePublisherFacade()
+    private var imageList: [UIImage] = makeUIImageArray(type: .empty)
     
     //MARK: Constants
     private enum Constants {
@@ -39,9 +44,11 @@ class PhotosViewController: UIViewController {
         setView()
         addSubviews()
         setConstraints()
-        
+        subscribe()
+        facade.addImagesWithTimer(time: 0.2, repeat: 21, userImages: makeUIImageArray(type: .normal))
+
     }
-    
+
     
     // MARK: Private
     private func setView() {
@@ -63,6 +70,9 @@ class PhotosViewController: UIViewController {
             photoCollection.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -Constants.vertSpacing)
         ])
     }
+    private func subscribe() {
+        facade.subscribe(self)
+    }
 }
 
 // MARK: Delegate
@@ -73,6 +83,7 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
         let size = (view.frame.width - 32)/3
         return CGSize(width: size*0.9, height: size*0.9)
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: Constants.vertSpacing, left: Constants.vertSpacing, bottom: Constants.vertSpacing, right: Constants.vertSpacing)
     }
@@ -97,10 +108,27 @@ extension PhotosViewController: UICollectionViewDataSource {
             for: indexPath) as? PhotosCollectionViewCell else {
             fatalError("Fatal Error of gallery")
         }
-        cell.update(image: "image" + String(indexPath.section*3 + indexPath.row + 1))
+        cell.update(image: imageList[
+            indexPath.section*3 + indexPath.row
+        ]
+        )
         
         return cell
     }
     
     
 }
+
+//MARK: ImageLibrarySubscriber
+
+extension PhotosViewController: ImageLibrarySubscriber {
+    func receive(images: [UIImage]) {
+        imageList[images.count-1] = images.last!
+        photoCollection.reloadData()
+                
+        if images.count == 21 {
+            facade.removeSubscription(for: self)
+        }
+    }
+}
+

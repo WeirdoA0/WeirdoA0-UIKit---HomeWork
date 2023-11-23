@@ -88,6 +88,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         
         
         text.placeholder = "Email or phone"
+        text.text = "login"
         
         text.delegate = self
         
@@ -107,6 +108,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         text.clearButtonMode = .whileEditing
         text.returnKeyType = UIReturnKeyType.done
         text.contentVerticalAlignment = .center
+        text.text = "password"
         
         text.placeholder = "Password"
         text.isSecureTextEntry = true

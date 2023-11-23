@@ -50,7 +50,7 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         ])
     }
     //MARK: Update
-    internal func update(image named: String) {
-        picture.image = UIImage(named: named)
+    internal func update(image UIImage: UIImage) {
+        picture.image = UIImage
     }
 }
