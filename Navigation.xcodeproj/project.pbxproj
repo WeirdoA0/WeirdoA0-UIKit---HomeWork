@@ -22,10 +22,12 @@
 		441857832AB1F443003F77CC /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 441857822AB1F443003F77CC /* FeedViewController.swift */; };
 		441857852AB1F9E0003F77CC /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 441857842AB1F9E0003F77CC /* PostViewController.swift */; };
 		441857892AB1FE70003F77CC /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 441857882AB1FE70003F77CC /* InfoViewController.swift */; };
+		442A0EFD2B13ED9100851992 /* FeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442A0EFC2B13ED9100851992 /* FeedModel.swift */; };
 		442B6F602B0C136100E4B3FD /* iOSIntPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 442B6F5F2B0C136100E4B3FD /* iOSIntPackage */; };
 		443094662B0285BA0082397C /* Cheker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443094652B0285BA0082397C /* Cheker.swift */; };
 		443094682B02FAC40082397C /* LoginViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443094672B02FAC40082397C /* LoginViewControllerDelegate.swift */; };
 		4430946A2B0301E30082397C /* LoginInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443094692B0301E30082397C /* LoginInspector.swift */; };
+		4472CF272B1171C300300709 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4472CF262B1171C300300709 /* CustomButton.swift */; };
 		447A3E082ADE9DE2003274DB /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 447A3E072ADE9DE2003274DB /* PostTableViewCell.swift */; };
 		448216742AE9504E00BA3C25 /* CellForPhotosTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448216732AE9504E00BA3C25 /* CellForPhotosTableViewCell.swift */; };
 		4486D5A42AFAEAF900469365 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4486D5A32AFAEAF900469365 /* Post.swift */; };
@@ -94,9 +96,11 @@
 		441857822AB1F443003F77CC /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		441857842AB1F9E0003F77CC /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		441857882AB1FE70003F77CC /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
+		442A0EFC2B13ED9100851992 /* FeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedModel.swift; sourceTree = "<group>"; };
 		443094652B0285BA0082397C /* Cheker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cheker.swift; sourceTree = "<group>"; };
 		443094672B02FAC40082397C /* LoginViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewControllerDelegate.swift; sourceTree = "<group>"; };
 		443094692B0301E30082397C /* LoginInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInspector.swift; sourceTree = "<group>"; };
+		4472CF262B1171C300300709 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		447A3E072ADE9DE2003274DB /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		448216732AE9504E00BA3C25 /* CellForPhotosTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellForPhotosTableViewCell.swift; sourceTree = "<group>"; };
 		4486D5A32AFAEAF900469365 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -210,6 +214,7 @@
 				441857842AB1F9E0003F77CC /* PostViewController.swift */,
 				441857822AB1F443003F77CC /* FeedViewController.swift */,
 				441857882AB1FE70003F77CC /* InfoViewController.swift */,
+				442A0EFC2B13ED9100851992 /* FeedModel.swift */,
 			);
 			path = FeedBranch;
 			sourceTree = "<group>";
@@ -249,6 +254,7 @@
 			children = (
 				4494F38D2B0E288000E8B904 /* ResizeImage.swift */,
 				4494F38F2B0E289900E8B904 /* MakeUIImageArray.swift */,
+				4472CF262B1171C300300709 /* CustomButton.swift */,
 			);
 			path = AdditionalFiles;
 			sourceTree = "<group>";
@@ -435,8 +441,10 @@
 			files = (
 				441857852AB1F9E0003F77CC /* PostViewController.swift in Sources */,
 				4418576D2AB1F3A0003F77CC /* AppDelegate.swift in Sources */,
+				442A0EFD2B13ED9100851992 /* FeedModel.swift in Sources */,
 				441857832AB1F443003F77CC /* FeedViewController.swift in Sources */,
 				4494F38E2B0E288000E8B904 /* ResizeImage.swift in Sources */,
+				4472CF272B1171C300300709 /* CustomButton.swift in Sources */,
 				44B40C112AB739DD00EF39DC /* ProfileHeaderView.swift in Sources */,
 				441857812AB1F436003F77CC /* ProfileViewController.swift in Sources */,
 				4494F3902B0E289900E8B904 /* MakeUIImageArray.swift in Sources */,

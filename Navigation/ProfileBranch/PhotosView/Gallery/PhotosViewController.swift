@@ -48,6 +48,10 @@ class PhotosViewController: UIViewController {
         facade.addImagesWithTimer(time: 0.2, repeat: 21, userImages: makeUIImageArray(type: .normal))
 
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        facade.removeSubscription(for: self)
+    }
 
     
     // MARK: Private
@@ -126,9 +130,7 @@ extension PhotosViewController: ImageLibrarySubscriber {
         imageList[images.count-1] = images.last!
         photoCollection.reloadData()
                 
-        if images.count == 21 {
-            facade.removeSubscription(for: self)
-        }
+
     }
 }
 

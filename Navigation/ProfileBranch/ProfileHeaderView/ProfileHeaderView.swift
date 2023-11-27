@@ -15,13 +15,9 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
     // MARK: Subviews
     
     
-    private let button: UIButton = {
-        let btn = UIButton()
+    private let button: CustomButton = {
+        let btn = CustomButton(title: "Show Status", textColor: .white, backColor: .blue)
         
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setTitle("Show status", for: .normal)
-        btn.setTitleColor(.white, for: .normal)
-        btn.backgroundColor = .blue
         
         btn.layer.cornerRadius = 4
         btn.layer.shadowOffset = CGSize(width: 4, height: 4)
@@ -50,6 +46,8 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
         label.textColor = .darkGray
         label.textAlignment = .center
         label.font = UIFont(name: label.font.fontName, size: 14)
+        label.textAlignment = .left
+        
         return label
     }()
     
@@ -146,11 +144,12 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
         
             
             statusLabel.bottomAnchor.constraint(equalTo: button.topAnchor, constant: -34-40),
-            statusLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor,constant: 0),
+            statusLabel.leadingAnchor.constraint(equalTo: contentView.centerXAnchor,constant: -36),
+            statusLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 16),
         
             
             changeField.bottomAnchor.constraint(equalTo: button.topAnchor,constant: -16),
-            changeField.leadingAnchor.constraint(equalTo: statusLabel.leadingAnchor),
+            changeField.leadingAnchor.constraint(equalTo: contentView.centerXAnchor, constant:  -36),
             changeField.heightAnchor.constraint(equalToConstant: 40),
             changeField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
