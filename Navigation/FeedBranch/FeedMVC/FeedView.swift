@@ -1,26 +1,28 @@
 //
-//  FeedViewControler.swift
+//  FeedView.swift
 //  Navigation
 //
-//  Created by Руслан Усманов on 13.09.2023.
+//  Created by Руслан Усманов on 28.11.2023.
 //
 
 import UIKit
-class FeedViewController: UIViewController{
-    
+import StorageService
 
+class FeedView: UIView {
+    
+    var delegate: FeedViewDegelegate?
     
     //MARK: StackView
     
     private lazy var btn: CustomButton = {
         let btn = CustomButton(title: "New Button", textColor: .white, backColor: .purple)
-        btn.addTarget(self, action: #selector(openPostViewController), for: .touchUpInside)
+        btn.addTarget(delegate, action: #selector(delegate!.push), for: .touchUpInside)
         return btn
     }()
     
     private lazy var btn1: CustomButton = {
         let btn = CustomButton(title: "New Button", textColor: .white, backColor: .purple)
-        btn.addTarget(self, action: #selector(openPostViewController), for: .touchUpInside)
+        btn.addTarget(delegate, action: #selector(delegate!.push), for: .touchUpInside)
         return btn
     }()
     
@@ -41,7 +43,7 @@ class FeedViewController: UIViewController{
     //MARK: Subviews
     
     private lazy var label: UILabel = {
-       let lbl = UILabel()
+        let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.backgroundColor = .none
         
@@ -52,7 +54,7 @@ class FeedViewController: UIViewController{
     }()
     
     private lazy var field: UITextField = {
-       let field = UITextField()
+        let field = UITextField()
         field.translatesAutoresizingMaskIntoConstraints = false
         field.backgroundColor = .systemGray4
         field.textColor = .black
@@ -69,49 +71,41 @@ class FeedViewController: UIViewController{
         
         btn.layer.cornerRadius = 10
         btn.clipsToBounds = true
-        btn.addTarget(nil, action: #selector(check), for: .touchUpInside)
+        btn.addTarget(delegate, action: #selector(delegate?.check), for: .touchUpInside)
         
         return btn
+        
+        
+        
+        //MARK: LifeCycle
+        
     }()
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        title = "Feed"
-        view.backgroundColor = .white
-
+    init(){
+        super.init(frame: .zero)
+        
         addSubviews()
         setConstraint()
-//        setNotificationCenter()
-        
+        setNotifications()
+        backgroundColor = .white
     }
     
-    //MARK: Objc
-    
-    @objc func openPostViewController() {
-        let postViewController = PostViewController()
-        postViewController.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(postViewController, animated: true)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
-    @objc func check(){
-        if FeedModel.check(word: field.text) {
-            label.backgroundColor = .systemGreen
-        } else {
-            label.backgroundColor = .systemRed
-        }
-    }
-//    @objc func notify(){
-//        NotificationCenter.default.post(Notification(name: .btnPressed))
-//    }
+    
+    
     //MARK: Private
+    
     private func addSubviews(){
         [stackView, field, checkGuessButton, label].forEach({
-            view.addSubview($0)
+            self.addSubview($0)
         })
     }
     
     
     private func setConstraint(){
-        let safeArea = view.safeAreaLayoutGuide
+        let safeArea = self.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
             stackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
@@ -135,14 +129,30 @@ class FeedViewController: UIViewController{
             
         ])
     }
-//    private func setNotificationCenter(){
-//        NotificationCenter.default.addObserver(self, selector: #selector(check), name: .btnPressed, object: nil)
-//    }
+    private func setNotifications(){
+        NotificationCenter.default.addObserver(self, selector: #selector(actionBtn) , name: .btnEvent, object: nil)
+
+    }
     
+    
+    //MARK: objc
+
+    @objc func actionBtn(){
+        if delegate!.returnBool(word: field.text ?? "") {
+            label.backgroundColor = .green
+        } else {
+            label.backgroundColor = .red
+        }
+    }
+    
+    //MARK: internal
+    
+    internal func returnWord() -> String{
+        field.text ?? ""
+    }
 }
 
-
-//extension Notification.Name {
-//    static let btnPressed  = Notification.Name("btnPressed")
-//}
-
+extension Notification.Name {
+    static let btnEvent = Notification.Name("btn")
+    static let btnEventFalse = Notification.Name("btnFalse")
+}

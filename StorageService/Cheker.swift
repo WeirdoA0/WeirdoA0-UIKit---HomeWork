@@ -6,7 +6,7 @@
 //
 
 import Foundation
-class Checker {
+class Checker: LoginViewControllerDelegate {
     static let shared = Checker()
     
     private let log: String = "login"
