@@ -8,8 +8,7 @@
 import UIKit
 @objc public protocol FeedViewDegelegate {
     func push()
-    func check(word: String)
-    func returnBool(word: String) -> Bool
-//    func returnBool() -> Bool
+    func check()
+    func returnBool() -> Bool
 }
 

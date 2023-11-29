@@ -14,17 +14,20 @@ class FeedView: UIView {
     
     //MARK: StackView
     
-    private lazy var btn: CustomButton = {
-        let btn = CustomButton(title: "New Button", textColor: .white, backColor: .purple)
-        btn.addTarget(delegate, action: #selector(delegate!.push), for: .touchUpInside)
-        return btn
-    }()
+    private lazy var btn: CustomButton = CustomButton(
+        title: "New Button",
+        textColor: .white,
+        backColor: .purple) { [weak self] in
+            self?.delegate!.push()
+        }
     
-    private lazy var btn1: CustomButton = {
-        let btn = CustomButton(title: "New Button", textColor: .white, backColor: .purple)
-        btn.addTarget(delegate, action: #selector(delegate!.push), for: .touchUpInside)
-        return btn
-    }()
+    private lazy var btn1: CustomButton =  CustomButton(
+        title: "New Button",
+        textColor: .white,
+        backColor: .purple) { [weak self] in
+        self?.delegate!.push()
+    }
+
     
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
@@ -59,32 +62,32 @@ class FeedView: UIView {
         field.backgroundColor = .systemGray4
         field.textColor = .black
         field.placeholder = "Print here"
-        field.text = "word"
+        field.text = "Word"
         
         field.layer.cornerRadius = 10
         field.clipsToBounds = true
         
         return field
     }()
-    private lazy var checkGuessButton: CustomButton = {
-        let btn = CustomButton(title: "Check", textColor: .white, backColor: .systemBlue)
+    private lazy var checkGuessButton: CustomButton = CustomButton(
+        title: "Check",
+        textColor: .white,
+        backColor: .systemBlue) { [weak self] in
+            print("Tap is done")
+            self?.delegate?.check()
+    }
         
-        btn.layer.cornerRadius = 10
-        btn.clipsToBounds = true
-        btn.addTarget(delegate, action: #selector(delegate?.check), for: .touchUpInside)
-        
-        return btn
+
         
         
         
         //MARK: LifeCycle
         
-    }()
     init(){
         super.init(frame: .zero)
         
         addSubviews()
-        setConstraint()
+        setConstraintsAndSetSubviews()
         setNotifications()
         backgroundColor = .white
     }
@@ -104,7 +107,7 @@ class FeedView: UIView {
     }
     
     
-    private func setConstraint(){
+    private func setConstraintsAndSetSubviews(){
         let safeArea = self.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
@@ -128,6 +131,11 @@ class FeedView: UIView {
             label.topAnchor.constraint(equalTo: checkGuessButton.topAnchor)
             
         ])
+        
+        checkGuessButton.layer.cornerRadius = 10
+        checkGuessButton.clipsToBounds = true
+        
+        
     }
     private func setNotifications(){
         NotificationCenter.default.addObserver(self, selector: #selector(actionBtn) , name: .btnEvent, object: nil)
@@ -138,7 +146,7 @@ class FeedView: UIView {
     //MARK: objc
 
     @objc func actionBtn(){
-        if delegate!.returnBool(word: field.text ?? "") {
+        if delegate!.returnBool() {
             label.backgroundColor = .green
         } else {
             label.backgroundColor = .red
@@ -154,5 +162,4 @@ class FeedView: UIView {
 
 extension Notification.Name {
     static let btnEvent = Notification.Name("btn")
-    static let btnEventFalse = Notification.Name("btnFalse")
 }

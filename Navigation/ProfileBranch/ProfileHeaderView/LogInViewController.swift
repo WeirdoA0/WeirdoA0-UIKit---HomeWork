@@ -117,21 +117,9 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         
         return text
     }()
-    private lazy var loginButton: UIButton = {
-        let btn = UIButton()
-        
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setTitleColor(UIColor.white, for: .normal)
-        btn.setBackgroundImage(UIImage(named: "pixel"), for: .normal)
-        btn.setTitle("Log in", for: .normal)
-        
-        btn.layer.cornerRadius = 10
-        btn.layer.masksToBounds = true
-        
-        btn.addTarget(self, action: #selector(logInPressed), for: .touchUpInside)
-        
-        return btn
-    }()
+    private lazy var loginButton: CustomButton = CustomButton(title: "Log in", textColor: .white, backColor: nil){ [weak self] in
+        self?.logInPressed()
+    }
     
     //MARK: LifeCycle
     
@@ -142,6 +130,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         setView()
         addSubviews()
         setConstaints()
+        tuneSubViews()
         
         
     }
@@ -204,6 +193,14 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
             
         ])
     }
+    
+    private func tuneSubViews(){
+        loginButton.setBackgroundImage(UIImage(named: "pixel"), for: .normal)
+        loginButton.layer.cornerRadius = 10
+        loginButton.layer.masksToBounds = true
+    }
+    
+    
     //MARK: KeyBoard Obervers
     private func addObservers() {
         let notiCenter = NotificationCenter.default

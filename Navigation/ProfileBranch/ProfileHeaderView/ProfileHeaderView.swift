@@ -15,20 +15,11 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
     // MARK: Subviews
     
     
-    private let button: CustomButton = {
-        let btn = CustomButton(title: "Show Status", textColor: .white, backColor: .blue)
+    private lazy var button: CustomButton = CustomButton(title: "Show status", textColor: .white, backColor: .blue){ [weak self ] in
+        self?.showButtonPressed()
         
+    }
         
-        btn.layer.cornerRadius = 4
-        btn.layer.shadowOffset = CGSize(width: 4, height: 4)
-        btn.layer.shadowOpacity = 0.7
-        btn.layer.shadowColor = UIColor.black.cgColor
-        
-        btn.layer.masksToBounds = true
-        btn.clipsToBounds = false
-        return btn
-    }()
-    
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -67,6 +58,8 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
         field.layer.borderWidth = 1
         field.layer.borderColor = UIColor.black.cgColor
         
+        field.addTarget(nil, action: #selector(statusTextChanged), for: .editingChanged)
+        
         return field
         
     }()
@@ -99,6 +92,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
         tuneView()
         addSubviews()
         setConstraints()
+        tuneSubviews()
         addGestures()
         
         
@@ -121,8 +115,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
     private func setConstraints() {
         
         
-        changeField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
-        button.addTarget(self, action: #selector(showButtonPressed), for: .touchUpInside)
+
         
         NSLayoutConstraint.activate([
             nameLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
@@ -155,11 +148,22 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
             
      
         ])
-
+        
+    }
+    
+    private func  tuneSubviews(){
+        button.layer.cornerRadius = 4
+        button.layer.shadowOffset = CGSize(width: 4, height: 4)
+        button.layer.shadowOpacity = 0.7
+        button.layer.shadowColor = UIColor.black.cgColor
+   
+        button.layer.masksToBounds = true
+        button.clipsToBounds = false
+        
+        
         contentView.bringSubviewToFront(avatar)
     }
     
-    // MARK: Private
     
     private func addGestures(){
         let tap = UITapGestureRecognizer(
@@ -213,7 +217,6 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
     @objc func showButtonPressed() {
         if button.titleLabel!.text == "Show status"{
             print (statusLabel.text ?? "")
-            print(self.bounds, self.frame)
         } else {
             statusLabel.text = changeField.text
             changeField.text = ""

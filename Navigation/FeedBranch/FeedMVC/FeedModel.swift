@@ -7,10 +7,9 @@
 
 import UIKit
 class FeedModel {
-    private static var secretWord: String = "word"
-    static func check(word: String?) -> Bool {
-        guard let actualWord = word else { return false }
-        return actualWord == secretWord ? true : false
+    private var secretWord: String = "Word"
+     func check(word: String?) -> Bool {
+         word == secretWord
     }
 }
 
