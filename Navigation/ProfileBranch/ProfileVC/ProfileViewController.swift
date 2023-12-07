@@ -10,7 +10,8 @@ import StorageService
 
 class ProfileViewController: UIViewController {
     
-    var user: User?
+    var viewModel: ProfileViewModelProtocol?
+    var currentHeaderState: (() -> Void)?
     
     private lazy var tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .plain)
@@ -40,6 +41,8 @@ class ProfileViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
 
     }
+    
+    //MARK: Private
     
     private func tuneView() {
         #if DEBUG
@@ -74,6 +77,7 @@ class ProfileViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
     }
+    
 }
 
 // MARK: Delegate
@@ -99,9 +103,10 @@ extension ProfileViewController: UITableViewDelegate {
             fatalError()
         }
 
-        header.parent = self
+            header.parent = self
+            header.setupViewModel()
             
-        header.update("", "")
+            header.update(user: viewModel!.user)
 
             
         return header
@@ -115,6 +120,7 @@ extension ProfileViewController: UITableViewDelegate {
     
     
 }
+
 
 //MARK: DataSource
 
@@ -135,6 +141,7 @@ extension ProfileViewController: UITableViewDataSource {
             }
             
             cell.parent = self
+//            cell.recieveGallery()
             
             cell.selectionStyle = .none
             

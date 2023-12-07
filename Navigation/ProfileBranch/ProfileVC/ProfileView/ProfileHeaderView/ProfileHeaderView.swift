@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import StorageService
 class ProfileHeaderView: UITableViewHeaderFooterView{
     
-     var parent:  UIViewController?
+    weak var parent:  UIViewController?
     private var initialCenter: CGPoint?
     
     // MARK: Subviews
@@ -94,7 +95,6 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
         setConstraints()
         tuneSubviews()
         addGestures()
-        
         
     }
     
@@ -215,10 +215,15 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
 
     
     @objc func showButtonPressed() {
+        let prnt = parent as! ProfileViewController
+        let viewmodel = prnt.viewModel!
+        
         if button.titleLabel!.text == "Show status"{
-            print (statusLabel.text ?? "")
+            print (viewmodel.user.status)
         } else {
-            statusLabel.text = changeField.text
+            viewmodel.updateUser(
+                userData: .status(changeField.text ?? ""))
+            
             changeField.text = ""
             button.setTitle("Show status", for: .normal)
         }
@@ -322,13 +327,16 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
     
     //MARK: Internal
     
-    func update(_ name: String, _ image: String) {
-        let prnt = parent as! ProfileViewController
-        nameLabel.text = prnt.user?.name
-        avatar.image = prnt.user?.avatar
-        statusLabel.text = prnt.user?.status
+    func update(user: User) {
+        nameLabel.text = user.name
+        avatar.image = user.avatar
+        statusLabel.text = user.status
     }
 
+    func setupViewModel() {
+         let prnt = parent as! ProfileViewController
+        prnt.viewModel?.currentUserState = update(user:)
+    }
     
     
     required init?(coder: NSCoder) {

@@ -239,6 +239,13 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
+    //MARK: Private
+    private func pullAnError() {
+        let alert = UIAlertController(title: "Incorrect login or password", message: "Enter correct login and password", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        self.present(alert, animated: true)
+    }
+    
     
     //MARK: Login
     
@@ -249,14 +256,13 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         let user = CurrentUserService()
         #endif
         if (loginDelegate?.check(login: loginField.text ?? "", password: passwordField.text ?? "")) ?? false {
-            let user = user.authorizeUser(loginField.text ?? "")
+            let user = user.authorizeUser(loginField.text ?? "")!
+            let viewModel = ProfileViewModel(user: user)
             let VController = ProfileViewController()
-            VController.user = user
+            VController.viewModel = viewModel
             self.navigationController?.pushViewController(VController, animated: true)
         } else {
-            let alert = UIAlertController(title: "Incorrect login or password", message: "Enter correct login and password", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-            self.present(alert, animated: true)
+            pullAnError()
         }
     }
     

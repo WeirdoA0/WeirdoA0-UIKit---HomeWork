@@ -145,11 +145,16 @@ extension PhotosTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellForPhotosTableViewCell.reuseIdentifier, for: indexPath) as! CellForPhotosTableViewCell
         
-        cell.update(image: "image" + String(indexPath.row + 1))
+        let prnt = parent as! ProfileViewController
+        prnt.viewModel!.loadImage(closure: { image in
+            cell.update(image: image)
+        })
         
         return cell
     }
 }
+
+
 
 
 private enum Constants {

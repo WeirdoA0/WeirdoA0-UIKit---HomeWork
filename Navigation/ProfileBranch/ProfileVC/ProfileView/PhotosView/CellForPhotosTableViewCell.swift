@@ -10,6 +10,7 @@ import UIKit
 class CellForPhotosTableViewCell: UICollectionViewCell {
     static let reuseIdentifier: String = "PhotoCell"
     
+    
     private enum Constants {
         static let cornerRadius: CGFloat = 6
     }
@@ -32,7 +33,7 @@ class CellForPhotosTableViewCell: UICollectionViewCell {
         setConstraints()
     }
     private func setView() {
-        contentView.backgroundColor = .black
+        contentView.backgroundColor = .systemGray5
         contentView.clipsToBounds = true
         contentView.layer.cornerRadius = Constants.cornerRadius
     }
@@ -48,7 +49,7 @@ class CellForPhotosTableViewCell: UICollectionViewCell {
         ])
     }
 
-    internal func update(image name: String) {
-        picture.image = UIImage(named: name)
+    internal func update(image : UIImage) {
+          picture.image = image
     }
 }
