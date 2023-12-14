@@ -7,6 +7,8 @@
 
 import Foundation
 class Checker: LoginViewControllerDelegate {
+    var presentProfile: ((User) -> Void)?
+    
     static let shared = Checker()
     
     private let log: String = "login"

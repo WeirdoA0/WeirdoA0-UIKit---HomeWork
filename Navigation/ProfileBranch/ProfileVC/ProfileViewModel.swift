@@ -12,12 +12,15 @@ import UIKit
 protocol ProfileViewModelProtocol {
     var user: User { get set }
     var currentUserState: ((User) -> Void)? { get set}
+    var profile: () -> Void { get set }
     
     func loadImage(closure: @escaping (UIImage) -> Void)
     func updateUser(userData: UserData)
 }
 
 class ProfileViewModel: ProfileViewModelProtocol {
+    var profile: () -> Void = {}
+
     
     var user: StorageService.User
     var currentUserState: ((User) -> Void)?
