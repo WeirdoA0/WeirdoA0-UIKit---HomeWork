@@ -141,7 +141,6 @@ extension ProfileViewController: UITableViewDataSource {
             }
             
             cell.parent = self
-//            cell.recieveGallery()
             
             cell.selectionStyle = .none
             

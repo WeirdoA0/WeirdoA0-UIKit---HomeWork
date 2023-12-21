@@ -15,32 +15,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
-//        let window = UIWindow(windowScene: scene)
-//
-//        let logInViewController = LogInViewController()
-//        let feedViewController = FeedViewController()
-//        let tabBarController = UITabBarController()
-//        tabBarController.viewControllers = [feedViewController,logInViewController].map {
-//            UINavigationController(rootViewController: $0)
-//        }
-//
-//        logInViewController.tabBarItem = UITabBarItem(title: "Profile", image: resizeImage(image: UIImage(named: "profile")!, targetSize: CGSize(width: 30, height: 30)), tag: 1)
-//        feedViewController.tabBarItem = UITabBarItem(title: "Feed", image: resizeImage(image: UIImage(named: "feed")!, targetSize: CGSize(width: 30, height: 30)), tag: 0)
-//
-//        logInViewController.loginDelegate = MyLoginFactory().makeLoginInspector()
-//
-//
-//        tabBarController.selectedIndex = 1
-//
-//        tabBarController.tabBar.backgroundColor = .white
-//
-//        window.rootViewController = tabBarController
-//        window.makeKeyAndVisible()
-//        self.window = window
-        
-        //MARK: Coordinator
         let window = UIWindow(windowScene: scene)
-        window.rootViewController =  MainCoordinator().start()
+        
+        let logInViewController = LogInViewController()
+        let feedViewController = FeedViewController()
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [feedViewController,logInViewController].map {
+            UINavigationController(rootViewController: $0)
+        }
+        
+        logInViewController.tabBarItem = UITabBarItem(title: "Profile", image: resizeImage(image: UIImage(named: "profile")!, targetSize: CGSize(width: 30, height: 30)), tag: 1)
+        feedViewController.tabBarItem = UITabBarItem(title: "Feed", image: resizeImage(image: UIImage(named: "feed")!, targetSize: CGSize(width: 30, height: 30)), tag: 0)
+        
+        logInViewController.loginDelegate = MyLoginFactory().makeLoginInspector()
+        
+        
+        tabBarController.selectedIndex = 1
+        
+        tabBarController.tabBar.backgroundColor = .white
+        
+        window.rootViewController = tabBarController
         window.makeKeyAndVisible()
         self.window = window
     }

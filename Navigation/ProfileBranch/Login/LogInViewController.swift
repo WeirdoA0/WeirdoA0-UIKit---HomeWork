@@ -257,11 +257,10 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         #endif
         if (loginDelegate?.check(login: loginField.text ?? "", password: passwordField.text ?? "")) ?? false {
             let user = user.authorizeUser(loginField.text ?? "")!
-            loginDelegate?.presentProfile!(user)
-//            let viewModel = ProfileViewModel(user: user)
-//            let VController = ProfileViewController()
-//            VController.viewModel = viewModel
-//            self.navigationController?.pushViewController(VController, animated: true)
+            let viewModel = ProfileViewModel(user: user)
+            let VController = ProfileViewController()
+            VController.viewModel = viewModel
+            self.navigationController?.pushViewController(VController, animated: true)
         } else {
             pullAnError()
         }

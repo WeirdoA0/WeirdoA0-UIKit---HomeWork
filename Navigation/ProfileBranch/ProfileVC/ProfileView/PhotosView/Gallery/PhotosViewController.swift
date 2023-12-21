@@ -9,10 +9,22 @@ import UIKit
 import iOSIntPackage
 import StorageService
 
+
 class PhotosViewController: UIViewController {
     
-    private var facade = ImagePublisherFacade()
-    private var imageList: [UIImage] = makeUIImageArray(type: .empty)
+    private var timeInterval: TimeInterval = 0
+    
+    private var imageProcessor = ImageProcessor()
+    private var imageList: [UIImage] = makeUIImageArray(type: .normal) {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                self?.photoCollection.reloadData()
+                self?.timeInterval -= Date().timeIntervalSinceReferenceDate
+                self?.timeInterval *= -1
+                print(self?.timeInterval ?? 0)
+            }
+        }
+    }
     
     //MARK: Constants
     private enum Constants {
@@ -44,13 +56,11 @@ class PhotosViewController: UIViewController {
         setView()
         addSubviews()
         setConstraints()
-        subscribe()
-        facade.addImagesWithTimer(time: 0.2, repeat: 21, userImages: makeUIImageArray(type: .normal))
+        processImagesOnThread()
 
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        facade.removeSubscription(for: self)
     }
 
     
@@ -74,8 +84,17 @@ class PhotosViewController: UIViewController {
             photoCollection.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -Constants.vertSpacing)
         ])
     }
-    private func subscribe() {
-        facade.subscribe(self)
+    private func processImagesOnThread(){
+        timeInterval = Date().timeIntervalSinceReferenceDate
+        imageProcessor.processImagesOnThread(
+            sourceImages: makeUIImageArray(type: .normal),
+            filter: .noir,
+            qos: .default,
+            completion: { [weak self] images in
+                self?.imageList = images.map({
+                    UIImage(cgImage: $0!)
+                })
+            })
     }
 }
 
@@ -95,7 +114,11 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
         return Constants.vertSpacing
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 7
+        var number = imageList.count / 3
+        if imageList.count - number*3 > 0 {
+            number += 1
+        }
+        return number
     }
 }
 
@@ -112,25 +135,22 @@ extension PhotosViewController: UICollectionViewDataSource {
             for: indexPath) as? PhotosCollectionViewCell else {
             fatalError("Fatal Error of gallery")
         }
+        if (indexPath.section*3 + indexPath.row) < imageList.count {
         cell.update(image: imageList[
             indexPath.section*3 + indexPath.row
-        ]
-        )
+        ])
+                    } else {
+            cell.update(image: UIImage())
+        }
         
         return cell
     }
     
-    
 }
 
-//MARK: ImageLibrarySubscriber
 
-extension PhotosViewController: ImageLibrarySubscriber {
-    func receive(images: [UIImage]) {
-        imageList[images.count-1] = images.last!
-        photoCollection.reloadData()
-                
-
-    }
-}
-
+// default 1.724923014640808
+// background 4.937456011772156
+// utility  1.852594017982483
+// userInitiated 1.6242889165878296
+// userInteractive 1.4245660305023193
