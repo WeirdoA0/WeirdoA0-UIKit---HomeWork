@@ -10,8 +10,16 @@ import StorageService
 class LogInViewController: UIViewController, UITextFieldDelegate {
     
     var loginDelegate: LoginViewControllerDelegate?
+    private var passwordToUnlock: String = ""
     
     //MARK: SubViews
+    
+    private var queue = OperationQueue()
+    
+    private lazy var bruteBtn: CustomButton = CustomButton(title: "pick up a password", textColor: .white, backColor:  .red) { [weak self] in
+        self?.passwordToUnlock = generateRandom(4, from: String().printable)
+        self?.makeBrutus()
+    }
     
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView()
@@ -19,8 +27,6 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         scroll.showsVerticalScrollIndicator = false
         
         scroll.translatesAutoresizingMaskIntoConstraints = false
-        
-        
         
         return scroll
     }()
@@ -121,6 +127,15 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         self?.logInPressed()
     }
     
+    private lazy var activitIndicator: UIActivityIndicatorView  = {
+        let view = UIActivityIndicatorView(style: .large)
+        view.isHidden = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    
+    
     //MARK: LifeCycle
     
     override func viewDidLoad() {
@@ -131,7 +146,6 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         addSubviews()
         setConstaints()
         tuneSubViews()
-        
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -149,7 +163,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     }
     //MARK: addSubviews
     private func addSubviews() {
-        [loginPasswordField, loginButton , VKLogo].forEach({
+        [loginPasswordField, loginButton , VKLogo, bruteBtn, activitIndicator].forEach({
             contentView.addSubview($0)
         })
         scrollView.addSubview(contentView)
@@ -189,7 +203,17 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
             loginButton.topAnchor.constraint(equalTo: loginPasswordField.bottomAnchor, constant: 16),
             loginButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             loginButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            loginButton.heightAnchor.constraint(equalToConstant: 50)
+            loginButton.heightAnchor.constraint(equalToConstant: 50),
+            
+            bruteBtn.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 32),
+            bruteBtn.centerXAnchor.constraint(equalTo: loginButton.centerXAnchor, constant: -120),
+            bruteBtn.widthAnchor.constraint(equalToConstant: 120),
+            bruteBtn.heightAnchor.constraint(equalToConstant: 50),
+            
+            activitIndicator.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 46),
+            activitIndicator.leadingAnchor.constraint(equalTo: bruteBtn.trailingAnchor, constant: 16),
+            
+            
             
         ])
     }
@@ -198,6 +222,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         loginButton.setBackgroundImage(UIImage(named: "pixel"), for: .normal)
         loginButton.layer.cornerRadius = 10
         loginButton.layer.masksToBounds = true
+        bruteBtn.titleLabel?.font = .boldSystemFont(ofSize: 12)
     }
     
     
@@ -246,6 +271,24 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         self.present(alert, animated: true)
     }
     
+    private func makeBrutus(){
+        let operation = BruteOperaion(passToUnlock: passwordToUnlock)
+        
+        activitIndicator.isHidden = false
+        activitIndicator.startAnimating()
+        
+        queue.addOperation(operation)
+        
+        operation.completionBlock = {
+            OperationQueue.main.addOperation { [weak self] in
+                self?.passwordField.text = operation.passToUnlock
+                self?.passwordField.isSecureTextEntry = false
+                
+                self?.activitIndicator.isHidden = true
+                self?.activitIndicator.stopAnimating()
+            }
+        }
+    }
     
     //MARK: Login
     
