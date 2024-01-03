@@ -13,9 +13,9 @@ class CustomButton: UIButton {
     private var title: String
     private var textColor: UIColor
     private var backColor: UIColor?
-    private var closure: (() -> Void)?
+    private var closure: () -> Void
     @objc func didTapOnBtn(){
-        (closure ?? {})()
+        closure()
     }
     
     init(title: String, textColor: UIColor, backColor: UIColor?, closure: @escaping () -> Void = {} ) {

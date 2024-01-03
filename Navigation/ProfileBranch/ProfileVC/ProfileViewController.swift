@@ -34,6 +34,7 @@ class ProfileViewController: UIViewController {
         addSubviews()
         setConstraints()
         setTableView()
+        startEyeTimer()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -77,7 +78,18 @@ class ProfileViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
     }
-    
+    private func startEyeTimer(){
+        let eyeTimer = AlertWithTimer(
+            period: 5,
+            title: "Take care of your eye",
+            text: "Long usage of phone leads to eye strain, constant eye strain may affect on your vision")
+        
+        eyeTimer.completion = { [weak self] in
+            self?.present(eyeTimer.alertWindow, animated: true)
+        }
+        
+        eyeTimer.startTimer()
+    }
 }
 
 // MARK: Delegate
