@@ -245,6 +245,19 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         self.present(alert, animated: true)
     }
+    private func checkFieldIsNotEmpty() throws -> Bool {
+        var isNotEmpty = true
+        if loginField.text == "" {
+            isNotEmpty = false
+            throw AppError.emptyField
+        } else  {}
+    
+        if passwordField.text == "" {
+            isNotEmpty = false
+            throw AppError.emptyField
+        }  else {}
+        return isNotEmpty
+        }
     
     
     //MARK: Login
@@ -255,15 +268,35 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         #else
         let user = CurrentUserService()
         #endif
-        if (loginDelegate?.check(login: loginField.text ?? "", password: passwordField.text ?? "")) ?? false {
-            let user = user.authorizeUser(loginField.text ?? "")!
-            let viewModel = ProfileViewModel(user: user)
-            let VController = ProfileViewController()
-            VController.viewModel = viewModel
-            self.navigationController?.pushViewController(VController, animated: true)
-        } else {
-            pullAnError()
+        
+        do {
+            let fieldIsEmpty = try checkFieldIsNotEmpty()
+            let loginIsCorrect = try loginDelegate?.check(
+                login: loginField.text!,
+                password: passwordField.text!)
+            
+            user.authorizeUser(
+                loginField.text!,
+                closure: { [weak self] result in
+                guard let self else {  fatalError() }
+                switch result {
+                case .success(let user):
+                    let VController = ProfileViewController()
+                    VController.viewModel = ProfileViewModel(user: user)
+                    VController.tabBarItem = self.tabBarItem
+                    self.navigationController?.setViewControllers([VController], animated: true)
+        
+                case .failure(let error):
+                    handleError(error: error, inView: self)
+                }
+            })
         }
+        
+        catch let error {
+            handleError(error: error, inView: self)
+        }
+        
+        
     }
     
 }

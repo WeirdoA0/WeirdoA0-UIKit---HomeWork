@@ -12,19 +12,10 @@ import StorageService
 
 class PhotosViewController: UIViewController {
     
-    private var timeInterval: TimeInterval = 0
     
     private var imageProcessor = ImageProcessor()
-    private var imageList: [UIImage] = makeUIImageArray(type: .normal) {
-        didSet {
-            DispatchQueue.main.async { [weak self] in
-                self?.photoCollection.reloadData()
-                self?.timeInterval -= Date().timeIntervalSinceReferenceDate
-                self?.timeInterval *= -1
-                print(self?.timeInterval ?? 0)
-            }
-        }
-    }
+    private var imageList: [UIImage] = makeUIImageArray(type: .normal)
+
     
     //MARK: Constants
     private enum Constants {
@@ -85,16 +76,19 @@ class PhotosViewController: UIViewController {
         ])
     }
     private func processImagesOnThread(){
-        timeInterval = Date().timeIntervalSinceReferenceDate
-        imageProcessor.processImagesOnThread(
-            sourceImages: makeUIImageArray(type: .normal),
-            filter: .noir,
-            qos: .default,
-            completion: { [weak self] images in
-                self?.imageList = images.map({
-                    UIImage(cgImage: $0!)
-                })
-            })
+        let startDate = Date()
+        ImageProcessor().processImagesOnThread(sourceImages: makeUIImageArray(type: .normal),
+                                                      filter: .posterize,
+                                                      qos: .default) { [weak self] images in
+                   guard let self else { return }
+                   self.imageList = images
+                       .compactMap { $0 }
+                       .map { UIImage(cgImage: $0) }
+                   DispatchQueue.main.async {
+                       self.photoCollection.reloadData()
+                   }
+                   print("Process time:  \(Date().timeIntervalSince(startDate)) seconds")
+               }
     }
 }
 

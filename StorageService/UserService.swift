@@ -9,12 +9,16 @@ import UIKit
 public protocol UserService {
     var user: User {get set}
     
-    func authorizeUser(_ login: String) -> User?
+    func authorizeUser(_ login: String, closure: (Result<User, Error>) -> Void)
 
 }
 extension UserService {
-    public func authorizeUser(_ login: String) -> User? {
-        login == user.login ? user : nil
+    public func authorizeUser(_ login: String, closure: (Result<User, Error>) -> Void) {
+        if login == user.login {
+            closure(.success(user))
+        } else {
+            closure(.failure(AppError.failedLoadModel))
+        }
         }
     }
 

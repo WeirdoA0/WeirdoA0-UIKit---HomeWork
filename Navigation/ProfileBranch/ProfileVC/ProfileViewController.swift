@@ -34,7 +34,7 @@ class ProfileViewController: UIViewController {
         addSubviews()
         setConstraints()
         setTableView()
-        startEyeTimer()
+//        startEyeTimer()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -87,7 +87,6 @@ class ProfileViewController: UIViewController {
         eyeTimer.completion = { [weak self] in
             self?.present(eyeTimer.alertWindow, animated: true)
         }
-        
         eyeTimer.startTimer()
     }
 }

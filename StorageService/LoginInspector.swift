@@ -7,9 +7,14 @@
 
 import Foundation
 public struct LoginInspector: LoginViewControllerDelegate {
-    public func check(login: String, password: String) -> Bool {
-        Checker.shared.check(login: login, password: password)
-
+    public func check(login: String, password: String) throws -> Bool {
+        let bool = Checker.shared.check(login: login, password: password)
+        if bool == true {
+            return bool
+        } else {
+            throw AppError.wrongLoginAndPassword
+        }
     }
+    
     public init(){}
 }

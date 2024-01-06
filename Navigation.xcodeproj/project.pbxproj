@@ -23,6 +23,7 @@
 		441857832AB1F443003F77CC /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 441857822AB1F443003F77CC /* FeedViewController.swift */; };
 		441857852AB1F9E0003F77CC /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 441857842AB1F9E0003F77CC /* PostViewController.swift */; };
 		441857892AB1FE70003F77CC /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 441857882AB1FE70003F77CC /* InfoViewController.swift */; };
+		4420E9D42B48801E00532FF4 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442E405B2B4739900092A61A /* Error.swift */; };
 		442A0EFD2B13ED9100851992 /* FeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442A0EFC2B13ED9100851992 /* FeedModel.swift */; };
 		443094662B0285BA0082397C /* Cheker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443094652B0285BA0082397C /* Cheker.swift */; };
 		443094682B02FAC40082397C /* LoginViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443094672B02FAC40082397C /* LoginViewControllerDelegate.swift */; };
@@ -102,6 +103,7 @@
 		441857842AB1F9E0003F77CC /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		441857882AB1FE70003F77CC /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		442A0EFC2B13ED9100851992 /* FeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedModel.swift; sourceTree = "<group>"; };
+		442E405B2B4739900092A61A /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		443094652B0285BA0082397C /* Cheker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cheker.swift; sourceTree = "<group>"; };
 		443094672B02FAC40082397C /* LoginViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewControllerDelegate.swift; sourceTree = "<group>"; };
 		443094692B0301E30082397C /* LoginInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInspector.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 		44053DE12AF8639F00984D35 /* StorageService */ = {
 			isa = PBXGroup;
 			children = (
+				442E405B2B4739900092A61A /* Error.swift */,
 				448DB1582B15A2DC00F53047 /* FeedViewDelegate.swift */,
 				443094652B0285BA0082397C /* Cheker.swift */,
 				443094672B02FAC40082397C /* LoginViewControllerDelegate.swift */,
@@ -468,6 +471,7 @@
 				443094682B02FAC40082397C /* LoginViewControllerDelegate.swift in Sources */,
 				4430946A2B0301E30082397C /* LoginInspector.swift in Sources */,
 				4486D5A42AFAEAF900469365 /* Post.swift in Sources */,
+				4420E9D42B48801E00532FF4 /* Error.swift in Sources */,
 				4486D5A62AFAEB0700469365 /* UserService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
