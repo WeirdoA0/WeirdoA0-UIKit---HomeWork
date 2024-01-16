@@ -20,18 +20,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let logInViewController = LogInViewController()
         let feedViewController = FeedViewController()
+        let multMediadeiaVC = MultimediaVeiwController()
         let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [feedViewController,logInViewController].map {
+        tabBarController.viewControllers = [multMediadeiaVC,feedViewController,logInViewController].map {
             UINavigationController(rootViewController: $0)
         }
         
-        logInViewController.tabBarItem = UITabBarItem(title: "Profile", image: resizeImage(image: UIImage(named: "profile")!, targetSize: CGSize(width: 30, height: 30)), tag: 1)
-        feedViewController.tabBarItem = UITabBarItem(title: "Feed", image: resizeImage(image: UIImage(named: "feed")!, targetSize: CGSize(width: 30, height: 30)), tag: 0)
+        logInViewController.tabBarItem = UITabBarItem(title: "Profile", image: resizeImage(image: UIImage(named: "profile")!, targetSize: CGSize(width: 30, height: 30)), tag: 2)
+        feedViewController.tabBarItem = UITabBarItem(title: "Feed", image: resizeImage(image: UIImage(named: "feed")!, targetSize: CGSize(width: 30, height: 30)), tag: 1)
+        multMediadeiaVC.tabBarItem = UITabBarItem(title: "Media", image: resizeImage(image: UIImage(named: "multimedia")!, targetSize: CGSize(width: 30, height: 30)), tag: 0)
         
         logInViewController.loginDelegate = MyLoginFactory().makeLoginInspector()
         
         
-        tabBarController.selectedIndex = 1
+        tabBarController.selectedIndex = 2
         
         tabBarController.tabBar.backgroundColor = .white
         

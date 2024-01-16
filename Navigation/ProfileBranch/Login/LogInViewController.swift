@@ -270,8 +270,8 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         #endif
         
         do {
-            let fieldIsEmpty = try checkFieldIsNotEmpty()
-            let loginIsCorrect = try loginDelegate?.check(
+            _ = try checkFieldIsNotEmpty()
+            _ = try loginDelegate?.check(
                 login: loginField.text!,
                 password: passwordField.text!)
             

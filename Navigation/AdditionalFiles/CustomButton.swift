@@ -13,22 +13,25 @@ class CustomButton: UIButton {
     private var title: String
     private var textColor: UIColor
     private var backColor: UIColor?
-    private var closure: () -> Void
+    var closure: () -> Void
+    private var font: UIFont?
     @objc func didTapOnBtn(){
         closure()
     }
     
-    init(title: String, textColor: UIColor, backColor: UIColor?, closure: @escaping () -> Void = {} ) {
+    init(title: String, textColor: UIColor, backColor: UIColor?, closure: @escaping () -> Void = {}, font: UIFont = UIFont.systemFont(ofSize: 12) ) {
         self.title = title
         self.textColor = textColor
         self.backColor = backColor
         self.closure = closure
+        self.font = font
         
         super.init(frame: .zero)
         
         self.setTitleColor(textColor, for: .normal)
         self.setTitle(self.title, for: .normal)
         self.backgroundColor = backColor
+        self.font = font
         self.translatesAutoresizingMaskIntoConstraints  = false
         self.addTarget(self, action: #selector(didTapOnBtn), for: .touchUpInside)
     }
