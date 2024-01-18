@@ -8,4 +8,5 @@
 import Foundation
 public protocol LoginViewControllerDelegate {
     func check( login: String, password: String) throws -> Bool
+
 }

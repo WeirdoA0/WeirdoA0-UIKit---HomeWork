@@ -7,6 +7,7 @@
 
 import UIKit
 import StorageService
+import NetworkService
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -17,7 +18,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: scene)
-        
+        var appConfiguarion: AppConfiguration = AppConfiguration()
+            NetworkService.request(appConfig: appConfiguarion)
+
+
         let logInViewController = LogInViewController()
         let feedViewController = FeedViewController()
         let multMediadeiaVC = MultimediaVeiwController()
@@ -72,7 +76,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-
-
+    
 }
 

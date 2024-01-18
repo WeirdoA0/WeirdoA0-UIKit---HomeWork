@@ -6,7 +6,10 @@
 //
 
 import Foundation
+import UIKit
 public struct LoginInspector: LoginViewControllerDelegate {
+
+    
     public func check(login: String, password: String) throws -> Bool {
         let bool = Checker.shared.check(login: login, password: password)
         if bool == true {
