@@ -18,9 +18,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: scene)
-        var appConfiguarion: AppConfiguration = AppConfiguration.allCases.randomElement()!
-        let url = appConfiguarion.url
-        NetworkService.request(url: url!)
+//        let appConfiguarion: AppConfiguration = AppConfiguration.allCases.randomElement()!
+//        let url = appConfiguarion.url
+//        NetworkService.request(url: url!)
 
 
         let logInViewController = LogInViewController()

@@ -11,7 +11,7 @@ import Foundation
 public struct NetworkService {
     public static func request(url: URL) {
         let session = URLSession.shared
-        var request: URLRequest = URLRequest(url: url)
+        let request: URLRequest = URLRequest(url: url)
         
         let dataTask = session.dataTask(with: request){data,response,erorr in
             if let erorr = erorr {
@@ -22,12 +22,12 @@ public struct NetworkService {
             if let HTTPSResopnse = response as? HTTPURLResponse {
                 switch HTTPSResopnse.statusCode {
                 case 200:
-                        guard let data = data else { print("Failed to decode"); return }
-                        let dataToPrint = String(decoding: data, as: UTF8.self)
-                        let statusCode = HTTPSResopnse.statusCode
-                        let headerFields = HTTPSResopnse.allHeaderFields
-                        print(dataToPrint, statusCode, headerFields)
-                                                                                               
+                    guard let data = data else { print("Failed to decode"); return }
+                    let dataToPrint = String(decoding: data, as: UTF8.self)
+                    let statusCode = HTTPSResopnse.statusCode
+                    let headerFields = HTTPSResopnse.allHeaderFields
+                    print(dataToPrint, statusCode, headerFields)
+                    
                 case 404:
                     print("Not found")
                 default:

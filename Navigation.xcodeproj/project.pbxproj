@@ -40,6 +40,7 @@
 		443094662B0285BA0082397C /* Cheker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443094652B0285BA0082397C /* Cheker.swift */; };
 		443094682B02FAC40082397C /* LoginViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443094672B02FAC40082397C /* LoginViewControllerDelegate.swift */; };
 		4430946A2B0301E30082397C /* LoginInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443094692B0301E30082397C /* LoginInspector.swift */; };
+		446B15A12B5BE3E500978987 /* InfoViewControllerNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446B15A02B5BE3E500978987 /* InfoViewControllerNetworkService.swift */; };
 		4472CF272B1171C300300709 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4472CF262B1171C300300709 /* CustomButton.swift */; };
 		447A3E082ADE9DE2003274DB /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 447A3E072ADE9DE2003274DB /* PostTableViewCell.swift */; };
 		44803D0A2B2F40F600B0D490 /* iOSIntPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 44803D092B2F40F600B0D490 /* iOSIntPackage */; };
@@ -160,6 +161,7 @@
 		443094652B0285BA0082397C /* Cheker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cheker.swift; sourceTree = "<group>"; };
 		443094672B02FAC40082397C /* LoginViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewControllerDelegate.swift; sourceTree = "<group>"; };
 		443094692B0301E30082397C /* LoginInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInspector.swift; sourceTree = "<group>"; };
+		446B15A02B5BE3E500978987 /* InfoViewControllerNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewControllerNetworkService.swift; sourceTree = "<group>"; };
 		4472CF262B1171C300300709 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		447A3E072ADE9DE2003274DB /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		448216732AE9504E00BA3C25 /* CellForPhotosTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellForPhotosTableViewCell.swift; sourceTree = "<group>"; };
@@ -398,6 +400,7 @@
 				449DD6612B57F65600988721 /* NetworkService.h */,
 				449DD6622B57F65600988721 /* NetworkService.docc */,
 				449DD67C2B57F67100988721 /* NetworkService.swift */,
+				446B15A02B5BE3E500978987 /* InfoViewControllerNetworkService.swift */,
 			);
 			path = NetworkService;
 			sourceTree = "<group>";
@@ -738,6 +741,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				449DD67D2B57F67100988721 /* NetworkService.swift in Sources */,
+				446B15A12B5BE3E500978987 /* InfoViewControllerNetworkService.swift in Sources */,
 				449DD6632B57F65600988721 /* NetworkService.docc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
