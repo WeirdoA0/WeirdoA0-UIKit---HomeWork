@@ -53,8 +53,10 @@ class InfoViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray
-        fetch()
         setConstraints()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        fetch()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

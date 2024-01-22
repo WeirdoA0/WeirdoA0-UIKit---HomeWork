@@ -96,15 +96,13 @@ public class InfoViewControllerNetworkService {
     //MARK: Private
     
     private func fetchResidents(residentsStringURL: [String], completion: @escaping(String) -> Void){
-        let urlAray = residentsStringURL.compactMap {
-            URL(string: $0)
-        }
-        let requestArray = urlAray.map{
-            URLRequest(url: $0)
-        }
-        var dataTasks: [URLSessionDataTask] = []
-        requestArray.forEach {
-            dataTasks.append(URLSession.shared.dataTask(with: $0){data ,response ,error in
+
+        let dispatchGroup = DispatchGroup()
+        for stringURL in residentsStringURL {
+            dispatchGroup.enter()
+            guard let url = URL(string: stringURL) else { print("Bad request"); return }
+                let request = URLRequest(url: url)
+            let dataTask = URLSession.shared.dataTask(with: request, completionHandler: {  data, response, error in
                 let decoder = JSONDecoder()
                 if error != nil {
                     print("Connection error")
@@ -132,9 +130,10 @@ public class InfoViewControllerNetworkService {
                     print("Unowned")
                 }
             })
+            dataTask.resume()
+            dispatchGroup.leave()
+            }
         }
-        dataTasks.forEach { $0.resume() }
-    }
     
 }
 
