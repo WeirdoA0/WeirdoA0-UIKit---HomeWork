@@ -97,9 +97,7 @@ public class InfoViewControllerNetworkService {
     
     private func fetchResidents(residentsStringURL: [String], completion: @escaping(String) -> Void){
 
-        let dispatchGroup = DispatchGroup()
         for stringURL in residentsStringURL {
-            dispatchGroup.enter()
             guard let url = URL(string: stringURL) else { print("Bad request"); return }
                 let request = URLRequest(url: url)
             let dataTask = URLSession.shared.dataTask(with: request, completionHandler: {  data, response, error in
@@ -131,7 +129,6 @@ public class InfoViewControllerNetworkService {
                 }
             })
             dataTask.resume()
-            dispatchGroup.leave()
             }
         }
     
