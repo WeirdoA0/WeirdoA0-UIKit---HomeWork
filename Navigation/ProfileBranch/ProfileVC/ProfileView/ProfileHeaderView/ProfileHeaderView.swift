@@ -327,7 +327,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView{
     
     //MARK: Internal
     
-    func update(user: User) {
+    func update(user: AppUser) {
         nameLabel.text = user.name
         avatar.image = user.avatar
         statusLabel.text = user.status

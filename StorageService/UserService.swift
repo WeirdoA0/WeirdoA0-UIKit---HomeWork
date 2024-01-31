@@ -7,23 +7,25 @@
 
 import UIKit
 public protocol UserService {
-    var user: User {get set}
+    var user: AppUser {get set}
     
-    func authorizeUser(_ login: String, closure: (Result<User, Error>) -> Void)
+    func authorizeUser(_ login: String, closure: (Result<AppUser, Error>) -> Void)
 
 }
+
 extension UserService {
-    public func authorizeUser(_ login: String, closure: (Result<User, Error>) -> Void) {
+    public func authorizeUser(_ login: String, closure: (Result<AppUser, Error>) -> Void) {
         if login == user.login {
             closure(.success(user))
         } else {
             closure(.failure(AppError.failedLoadModel))
         }
         }
+    
     }
 
 
-public class User {
+public class AppUser {
     public var login: String
     public var name: String
     public var status: String
@@ -45,7 +47,7 @@ public class CurrentUserService: UserService {
     }
     
 
-public let dogeUser = User(
+public let dogeUser = AppUser(
     login: "login",
     name: "Doge",
     status: "Watching at you",
@@ -58,7 +60,7 @@ public class TestUserService: UserService {
     public init(){}
 }
 
-public let developerUser = User(
+public let developerUser = AppUser(
     login: "login",
     name: "support",
     status: "",

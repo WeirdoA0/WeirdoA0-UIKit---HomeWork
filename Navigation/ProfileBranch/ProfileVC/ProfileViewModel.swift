@@ -10,8 +10,8 @@ import StorageService
 import UIKit
 
 protocol ProfileViewModelProtocol {
-    var user: User { get set }
-    var currentUserState: ((User) -> Void)? { get set}
+    var user: AppUser { get set }
+    var currentUserState: ((AppUser) -> Void)? { get set}
     
     func loadImage(closure: @escaping (UIImage) -> Void)
     func updateUser(userData: UserData)
@@ -19,10 +19,10 @@ protocol ProfileViewModelProtocol {
 
 class ProfileViewModel: ProfileViewModelProtocol {
     
-    var user: StorageService.User
-    var currentUserState: ((User) -> Void)?
+    var user: StorageService.AppUser
+    var currentUserState: ((AppUser) -> Void)?
     
-    init(user: StorageService.User) {
+    init(user: StorageService.AppUser) {
         self.user = user
     }
     

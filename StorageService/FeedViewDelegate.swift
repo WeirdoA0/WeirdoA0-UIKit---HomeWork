@@ -6,7 +6,7 @@
 //
 
 import UIKit
-@objc public protocol FeedViewDegelegate {
+ public protocol FeedViewDegelegate {
     func push()
     func check()
     func returnBool() -> Bool

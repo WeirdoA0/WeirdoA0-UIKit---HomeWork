@@ -88,7 +88,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         
         
         text.placeholder = "Email or phone"
-        text.text = "login"
+        text.text = "login@gmail.com"
         
         text.delegate = self
         
@@ -108,7 +108,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         text.clearButtonMode = .whileEditing
         text.returnKeyType = UIReturnKeyType.done
         text.contentVerticalAlignment = .center
-        text.text = "password"
+        text.text = "qwerty"
         
         text.placeholder = "Password"
         text.isSecureTextEntry = true
@@ -117,6 +117,11 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         
         return text
     }()
+    
+    private lazy var signUpBtn = CustomButton(title: "Sign up", textColor: .white, backColor: nil, closure: { [weak self] in
+        self?.signUpPressed()
+    })
+    
     private lazy var loginButton: CustomButton = CustomButton(title: "Log in", textColor: .white, backColor: nil){ [weak self] in
         self?.logInPressed()
     }
@@ -149,7 +154,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     }
     //MARK: addSubviews
     private func addSubviews() {
-        [loginPasswordField, loginButton , VKLogo].forEach({
+        [loginPasswordField, loginButton , VKLogo, signUpBtn].forEach({
             contentView.addSubview($0)
         })
         scrollView.addSubview(contentView)
@@ -189,8 +194,12 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
             loginButton.topAnchor.constraint(equalTo: loginPasswordField.bottomAnchor, constant: 16),
             loginButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             loginButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            loginButton.heightAnchor.constraint(equalToConstant: 50)
+            loginButton.heightAnchor.constraint(equalToConstant: 50),
             
+            signUpBtn.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 16),
+            signUpBtn.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            signUpBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            signUpBtn.heightAnchor.constraint(equalToConstant: 50),
         ])
     }
     
@@ -198,6 +207,10 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         loginButton.setBackgroundImage(UIImage(named: "pixel"), for: .normal)
         loginButton.layer.cornerRadius = 10
         loginButton.layer.masksToBounds = true
+        
+        signUpBtn.setBackgroundImage(UIImage(named: "pixel"), for: .normal)
+        signUpBtn.layer.cornerRadius = 10
+        signUpBtn.layer.masksToBounds = true
     }
     
     
@@ -260,44 +273,48 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         }
     
     
-    //MARK: Login
+    //MARK: Login & SignUp
     
     @objc func logInPressed() {
-        #if DEBUG
-        let user = TestUserService()
-        #else
-        let user = CurrentUserService()
-        #endif
         
-        do {
-            _ = try checkFieldIsNotEmpty()
-            _ = try loginDelegate?.check(
-                login: loginField.text!,
-                password: passwordField.text!)
-            
-            user.authorizeUser(
-                loginField.text!,
-                closure: { [weak self] result in
-                guard let self else {  fatalError() }
-                switch result {
-                case .success(let user):
-                    let VController = ProfileViewController()
-                    VController.viewModel = ProfileViewModel(user: user)
-                    VController.tabBarItem = self.tabBarItem
-                    self.navigationController?.setViewControllers([VController], animated: true)
-        
-                case .failure(let error):
-                    handleError(error: error, inView: self)
-                }
-            })
-        }
-        
-        catch let error {
-            handleError(error: error, inView: self)
-        }
+        loginDelegate?.checkCredentials(login: loginField.text!, password: passwordField.text!, completion: { [weak self] result in
+            switch result{
+            case .failure(let error):
+                self?.makeAlert(title: "An error ocсured", message: error.localizedDescription)
+            case .success(let user):
+                print(user.user.uid)
+                
+#if DEBUG
+                let userService = TestUserService()
+#else
+                let userService = CurrentUserService()
+#endif
+                
+                let VController = ProfileViewController()
+                
+                VController.viewModel = ProfileViewModel(user: userService.user)
+                VController.tabBarItem = self?.tabBarItem
+                self?.navigationController?.setViewControllers([VController], animated: true)
+                
+            }
+
+        })
+
         
         
     }
     
+    private func signUpPressed() {
+        loginDelegate?.singUp(login: loginField.text!, password: passwordField.text!, completion: { [weak self] result in
+            switch result{
+            case .failure(let error):
+                self?.makeAlert(title: "An error ocсured", message: error.localizedDescription)
+            case .success(let user):
+                print(user.user.uid + " signedUp")
+
+            }
+        })
+    }
 }
+
 
