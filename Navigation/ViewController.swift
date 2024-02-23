@@ -49,6 +49,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setConstraints()
+        print(documentPath)
     }
     
     //MARK: Private
@@ -129,18 +130,29 @@ extension ViewController: UITableViewDataSource {
 extension ViewController: UIImagePickerControllerDelegate{
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let documentURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        guard let image = info[.originalImage] as? UIImage else { print("failed"); return }
-        let url = documentURL.appendingPathComponent("iamge\(items.count+1).png")
-
-        do {
-            try image.pngData()?.write(to: url)
+        
+        DispatchQueue.global().async { [weak self] in
+            guard let self = self else { return }
+            
+            guard let image = info[.originalImage] as? UIImage else {  return }
+            let urlPart = createPathComponent(in: self.items, with: "image", of: "png")
+            let url = documentURL.appendingPathComponent(urlPart)
+                
+                
+                do {
+                    try image.pngData()?.write(to: url)
+                }
+                catch {
+                    print(error.localizedDescription)
+                }
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+            }
         }
-        catch {
-            print(error.localizedDescription)
-        }
-        tableView.reloadData()
     }
-}
+
+
 
 extension ViewController: UINavigationControllerDelegate{
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

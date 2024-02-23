@@ -14,6 +14,7 @@
 		441857792AB1F3A1003F77CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 441857772AB1F3A1003F77CC /* LaunchScreen.storyboard */; };
 		44380D8A2B76BF8E00535C48 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44380D892B76BF8E00535C48 /* CustomTableViewCell.swift */; };
 		44380D8C2B76C16900535C48 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44380D8B2B76C16900535C48 /* UIViewExtension.swift */; };
+		44986B852B7A6F01004A72A3 /* CreatePathComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44986B842B7A6F01004A72A3 /* CreatePathComponent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		4418577A2AB1F3A1003F77CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		44380D892B76BF8E00535C48 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		44380D8B2B76C16900535C48 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		44986B842B7A6F01004A72A3 /* CreatePathComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePathComponent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				441857772AB1F3A1003F77CC /* LaunchScreen.storyboard */,
 				4418577A2AB1F3A1003F77CC /* Info.plist */,
 				44380D8B2B76C16900535C48 /* UIViewExtension.swift */,
+				44986B842B7A6F01004A72A3 /* CreatePathComponent.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -144,6 +147,7 @@
 				44380D8A2B76BF8E00535C48 /* CustomTableViewCell.swift in Sources */,
 				441857712AB1F3A0003F77CC /* ViewController.swift in Sources */,
 				4418576D2AB1F3A0003F77CC /* AppDelegate.swift in Sources */,
+				44986B852B7A6F01004A72A3 /* CreatePathComponent.swift in Sources */,
 				4418576F2AB1F3A0003F77CC /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
