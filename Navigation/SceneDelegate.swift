@@ -16,7 +16,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: scene)
         
-        let viewController = ViewController()
+//        let viewController = ViewController()
+        let viewController = InitialScreenVC(screenState: .defaultState)
         let navigationVC = UINavigationController(rootViewController: viewController)
         window.rootViewController = navigationVC
         

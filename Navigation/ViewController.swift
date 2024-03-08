@@ -12,7 +12,15 @@ class ViewController: UIViewController {
     var documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
     
     private var items: [String] {
-        (try? FileManager.default.contentsOfDirectory(atPath: documentPath)) ?? []
+       let array =  (try? FileManager.default.contentsOfDirectory(atPath: documentPath)) ?? []
+        switch Options.shared.order {
+        case .direct:
+            return array.sorted(by: { $0 < $1 })
+        case .revers:
+            return array.sorted(by: { $0 > $1 })
+        case .none:
+            return array
+        }
     }
     
     //MARK: Subviews
@@ -45,11 +53,17 @@ class ViewController: UIViewController {
         return btn
     }()
 
+    //MARK: LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setConstraints()
         print(documentPath)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reloadIfRequired()
     }
     
     //MARK: Private
@@ -73,6 +87,12 @@ class ViewController: UIViewController {
 
             
         ])
+    }
+    private func reloadIfRequired(){
+        if Options.shared.reloadIsreqired {
+            tableView.reloadData()
+            Options.shared.reloadIsreqired = false
+        }
     }
     
     //MARK: Interactive
@@ -98,13 +118,18 @@ extension ViewController: UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            do {
-                try FileManager.default.removeItem(atPath: documentPath + "/\(items[indexPath.row])")
+            DispatchQueue.global().async { [weak self] in
+                guard let self = self else { return }
+                do {
+                    try FileManager.default.removeItem(atPath: documentPath + "/\(items[indexPath.row])")
+                }
+                catch {
+                    print(error.localizedDescription)
+                }
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
             }
-            catch {
-                print(error.localizedDescription)
-            }
-            tableView.reloadData()
         }
     }
 }
@@ -129,10 +154,10 @@ extension ViewController: UITableViewDataSource {
 
 extension ViewController: UIImagePickerControllerDelegate{
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        let documentURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        
         DispatchQueue.global().async { [weak self] in
             guard let self = self else { return }
+            let documentURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        
             
             guard let image = info[.originalImage] as? UIImage else {  return }
             let urlPart = createPathComponent(in: self.items, with: "image", of: "png")

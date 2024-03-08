@@ -33,7 +33,7 @@ class CustomTableViewCell: UITableViewCell {
             image.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             image.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             image.heightAnchor.constraint(equalToConstant: 75),
-            image.widthAnchor.constraint(equalToConstant: 75)
+            image.widthAnchor.constraint(equalToConstant: 125)
             
         ])
     }
