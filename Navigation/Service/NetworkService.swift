@@ -86,7 +86,7 @@ class NetworkService {
             return
         }
         let newJoke = RealmJoke(joke: joke)
-        try! realm.write({
+        try? realm.write({
             realm.add(newJoke)
         })
     }
