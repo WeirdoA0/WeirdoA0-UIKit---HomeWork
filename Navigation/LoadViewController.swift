@@ -25,22 +25,32 @@ class LoadViewController: UIViewController {
         
         return btn
     }()
+    
+    private lazy var clearBtn: UIButton = {
+       let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitle("Clear Jokes", for: .normal)
+        btn.backgroundColor = .red
+        btn.addTarget(self, action: #selector(clearJokesBtnPressed), for: .touchUpInside)
+        
+        return btn
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         layout()
-        
-        let realm = try! Realm()
-        try! realm.write({
-            realm.deleteAll()
+        service.fetch(completion: { [weak self] jokes in
+            self?.cachedJokes = jokes
         })
+        publish()
         
     }
     
     
     private func layout(){
         view.addSubview(btn)
+        view.addSubview(clearBtn)
         
         let safe = view.safeAreaLayoutGuide
         
@@ -48,12 +58,25 @@ class LoadViewController: UIViewController {
             btn.centerXAnchor.constraint(equalTo: safe.centerXAnchor),
             btn.centerYAnchor.constraint(equalTo: safe.centerYAnchor),
             btn.widthAnchor.constraint(equalToConstant: 200),
-            btn.heightAnchor.constraint(equalToConstant: 50)
+            btn.heightAnchor.constraint(equalToConstant: 50),
+            
+            clearBtn.centerXAnchor.constraint(equalTo: safe.centerXAnchor),
+            clearBtn.topAnchor.constraint(equalTo: btn.bottomAnchor, constant: 25),
+            clearBtn.widthAnchor.constraint(equalToConstant: 200),
+            clearBtn.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
     @objc private func requestJokeBtnPressed() {
         service.loadJoke()
+        service.fetch(completion: { [weak self] jokes in
+            self?.cachedJokes = jokes
+        })
+        publish()
+    }
+    
+    @objc private func clearJokesBtnPressed(){
+        service.clearJokes()
         service.fetch(completion: { [weak self] jokes in
             self?.cachedJokes = jokes
         })

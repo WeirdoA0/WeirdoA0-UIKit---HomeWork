@@ -24,10 +24,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let vc3 = GroupedJokesViewController()
         vc.subscribers = [vc2,vc3]
         
-        
-        vc.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 0)
-        vc2.tabBarItem = UITabBarItem(tabBarSystemItem: .contacts, tag: 1)
-        vc3.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 2)
+        vc.tabBarItem = UITabBarItem(title: "Load Joke", image: nil, tag: 0)
+        vc2.tabBarItem = UITabBarItem(title: "Overall List", image: nil, tag: 1)
+        vc3.tabBarItem = UITabBarItem(title: "Grouped List", image: nil, tag: 2)
         tabBarController.selectedIndex = 0
         tabBarController.viewControllers = [vc ,vc2, vc3]
         

@@ -74,7 +74,6 @@ extension GroupedJokesViewController: UITableViewDelegate {
 extension GroupedJokesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Bruh")
         let vc = JokeListViewController()
         vc.items = (groupedItems[categories[indexPath.row]]?.map({
             $0.jokeText

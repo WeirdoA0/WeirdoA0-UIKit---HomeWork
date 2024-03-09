@@ -46,7 +46,7 @@ class NetworkService {
    task.resume()
 }
 
-    func fetch(completion: @escaping([RealmJoke]) -> Void){
+     func fetch(completion: @escaping([RealmJoke]) -> Void){
         guard let realm = try? Realm() else {
             return
         }
@@ -54,6 +54,15 @@ class NetworkService {
             $0.date < $1.date
         })
         completion(jokes)
+    }
+    
+    func clearJokes(){
+        guard let realm = try? Realm() else {
+            return
+        }
+        try? realm.write({
+            realm.deleteAll()
+        })
     }
 
     
@@ -72,7 +81,7 @@ class NetworkService {
     }
     
 
-    func uploadJoke(joke: Joke) {
+    private func uploadJoke(joke: Joke) {
         guard let realm = try? Realm() else {
             return
         }
