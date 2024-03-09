@@ -16,19 +16,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: scene)
         
-        let profileViewController = ProfileViewController()
-        let feedViewController = FeedViewController()
         let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [profileViewController,feedViewController].map {
-            UINavigationController(rootViewController: $0)
-        }
+        let navigationVC = UINavigationController(rootViewController: tabBarController)
         
-        profileViewController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(named: "profile"), tag: 1)
-        feedViewController.tabBarItem = UITabBarItem(title: "Feed", image: UIImage(named: "feed"), tag: 0)
-
+        let vc = LoadViewController()
+        let vc2 = OverallJokeListViewController()
+        let vc3 = GroupedJokesViewController()
+        vc.subscribers = [vc2,vc3]
+        
+        
+        vc.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 0)
+        vc2.tabBarItem = UITabBarItem(tabBarSystemItem: .contacts, tag: 1)
+        vc3.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 2)
         tabBarController.selectedIndex = 0
+        tabBarController.viewControllers = [vc ,vc2, vc3]
         
-        window.rootViewController = tabBarController
+        window.rootViewController = navigationVC
         window.makeKeyAndVisible()
         self.window = window
     }
