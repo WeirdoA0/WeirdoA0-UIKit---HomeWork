@@ -11,7 +11,9 @@ import StorageService
 class ProfileViewController: UIViewController {
     
     var viewModel: ProfileViewModelProtocol?
-    var currentHeaderState: (() -> Void)?
+    var favoriteVCDelegate: FavoriteDelegateProtocol?
+    
+    private var posts = Post.make()
     
     private lazy var tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .plain)
@@ -88,6 +90,20 @@ class ProfileViewController: UIViewController {
         }
         eyeTimer.startTimer()
     }
+    
+    @objc func cellDidSelect(sender: AnyObject){
+
+    }
+    
+    private func addGestureForCell(cell: UITableViewCell){
+        let gesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(cellDidSelect)
+        )
+        gesture.numberOfTapsRequired = 1
+        cell.addGestureRecognizer(gesture)
+    }
+    
 }
 
 // MARK: Delegate
@@ -128,7 +144,6 @@ extension ProfileViewController: UITableViewDelegate {
         return 1
     }
     
-    
 }
 
 
@@ -137,9 +152,8 @@ extension ProfileViewController: UITableViewDelegate {
 extension ProfileViewController: UITableViewDataSource {
     
     
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Post.make().count + 1
+        return posts.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -154,6 +168,8 @@ extension ProfileViewController: UITableViewDataSource {
             
             cell.selectionStyle = .none
             
+  
+            
             return cell
             
         } else {
@@ -162,9 +178,24 @@ extension ProfileViewController: UITableViewDataSource {
                 fatalError("Fatal Error")
             }
             
-            cell.update(model: Post.make()[indexPath.row - 1])
+            
+            cell.update(model: posts[indexPath.row - 1])
+            
+            let gesture = CustomTapGesture(completion: { [weak self] in
+                guard let self = self else { return }
+                guard indexPath.row > 0 else {
+                    return
+                }
+                self.favoriteVCDelegate?.addToFavorite(post: self.posts[indexPath.row-1])
+            })
+            gesture.numberOfTapsRequired = 2 
+            
+            cell.addGestureRecognizer(gesture)
             
             return cell
         }
     }
 }
+
+
+

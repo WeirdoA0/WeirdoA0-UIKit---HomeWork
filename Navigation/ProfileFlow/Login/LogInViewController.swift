@@ -11,6 +11,8 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     
     var loginDelegate: LoginViewControllerDelegate?
     
+    var fovoriteVC: FavoritesViewController?
+    
     //MARK: SubViews
     
     private lazy var scrollView: UIScrollView = {
@@ -292,7 +294,10 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
                 
                 let VController = ProfileViewController()
                 
+                
                 VController.viewModel = ProfileViewModel(user: userService.user)
+                VController.favoriteVCDelegate = self?.fovoriteVC
+
                 VController.tabBarItem = self?.tabBarItem
                 self?.navigationController?.setViewControllers([VController], animated: true)
                 

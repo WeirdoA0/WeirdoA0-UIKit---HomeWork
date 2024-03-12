@@ -10,6 +10,7 @@ import StorageService
 
 class PostTableViewCell: UITableViewCell {
     
+    
     //MARK: Subviews
     private lazy var headerLabel: UILabel = {
         let label = UILabel()
@@ -128,6 +129,8 @@ class PostTableViewCell: UITableViewCell {
     // MARK: Update
 
     internal func update(model: Post) {
+        
+        
         headerLabel.text = model.author
         postPicture.image = UIImage(named: model.image)
         text.text = model.description
