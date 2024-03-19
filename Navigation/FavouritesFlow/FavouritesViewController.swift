@@ -13,8 +13,16 @@ class FavoritesViewController: UIViewController {
     
     private let service: FavoriteService = FavoriteService()
     
+    private var authors: [String] {
+        let array = Array(Set(service.items.map {
+            $0.author ?? ""
+        }))
+        
+        return array
+    }
+    
     private lazy var tableView: UITableView = {
-       let table = UITableView()
+        let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
         table.backgroundColor = .systemGray6
         table.register(PostTableViewCell.self, forCellReuseIdentifier: .cellReuseId)
@@ -30,7 +38,9 @@ class FavoritesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemGray6
+        setupNavigationItems()
         layout()
+        fetchAndReload()
     }
     
     //MARK: Private
@@ -49,9 +59,42 @@ class FavoritesViewController: UIViewController {
         ])
     }
     
+    private func fetchAndReload(){
+        service.fetch() { [weak self] in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+    }
+    
+    @objc func alertBtnDidTap(){
+        let alert = UIAlertController(title: "Filter by author name", message: nil, preferredStyle: .alert)
+        alert.addTextField()
+        let textField: UITextField = (alert.textFields![0])
+        textField.text = authors.randomElement()!
+        alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { [weak self] _ in
+            self?.service.setFilter(author: textField.text)
+            self?.fetchAndReload()
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        present(alert, animated: true)
+    }
+    
+    @objc func alertCancelBtnDidTap(){
+        service.setFilter(author: nil)
+       fetchAndReload()
+    }
+    
+    
+    private func setupNavigationItems(){
+        let button = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(alertBtnDidTap))
+        let button2 = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(alertCancelBtnDidTap))
+        self.navigationItem.rightBarButtonItem = button2
+        self.navigationItem.rightBarButtonItems?.append(button)
+    }
+    
 }
-
-
+    
 //MARK: Extension
 
 extension FavoritesViewController: UITableViewDelegate {
@@ -81,8 +124,11 @@ extension FavoritesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         switch editingStyle{
         case .delete:
-            service.deleteItem(with: Int(service.items[indexPath.row].postId))
-            tableView.reloadData()
+            service.deleteItem(with: Int(service.items[indexPath.row].postId)){
+                DispatchQueue.main.async { [weak self] in
+                    self?.tableView.reloadData()
+                }
+            }
         default:
             break
         }
@@ -98,14 +144,21 @@ private extension String {
 
 extension FavoritesViewController: FavoriteDelegateProtocol {
     func addToFavorite(post: Post) {
-        service.createNewPost(post: post)
-        tableView.reloadData()
+        service.createNewPost(post: post) {
+            DispatchQueue.main.async { [weak self] in
+                self?.tableView.reloadData()
+            }
+        }
     }
+       
     
     func deleteFromFavorite(id: Int) {
-        service.deleteItem(with: id)
-        tableView.reloadData()
+        service.deleteItem(with: id){
+            
+        }
+
     }
-    
-    
+
 }
+
+
